@@ -4,6 +4,9 @@ import com.vaadin.ui.*;
 
 abstract public class AWidget {
 
+    /**
+     * Inner class to have total control over the widget layout
+     */
     protected class MainLayout extends VerticalLayout{
         public static final String CLASSNAME = "MainLayout";
 
@@ -69,7 +72,9 @@ abstract public class AWidget {
     }
 
     /**
-     * Copy constructor
+     * Copy constructor, you have to override this & call him
+     * do not forget to copy your form fields if you want to access them
+     * more easy
      * @param widget Widget to copy
      */
     public AWidget(AWidget widget){
