@@ -2,7 +2,6 @@ package com.epitech.dashboard.View;
 
 import com.epitech.dashboard.User;
 import com.epitech.dashboard.UserRepository;
-import com.vaadin.data.HasValue;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.ErrorMessage;
