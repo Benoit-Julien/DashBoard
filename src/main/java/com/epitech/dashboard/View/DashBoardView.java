@@ -1,32 +1,23 @@
-package com.epitech.dashboard;
+package com.epitech.dashboard.View;
 
-import com.vaadin.annotations.Theme;
+import com.epitech.dashboard.AWidget;
+import com.epitech.dashboard.User;
 import com.vaadin.data.provider.ListDataProvider;
-import com.vaadin.event.selection.SelectionEvent;
 import com.vaadin.event.selection.SingleSelectionEvent;
 import com.vaadin.icons.VaadinIcons;
-import com.vaadin.server.VaadinRequest;
-import com.vaadin.spring.annotation.SpringUI;
+import com.vaadin.navigator.View;
+import com.vaadin.navigator.ViewChangeListener;
+import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.*;
-import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.annotation.PostConstruct;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
-@SpringUI
-@Theme("valo")
-public class VaadinUI extends UI {
-
-    /**
-     * TODO: Implement doc about this #Julien
-     */
-    private Service service;
-
-    /**
-     * Main layout of the page
-     */
-    private VerticalLayout layout = new VerticalLayout();
+@SpringView(name = DashBoardView.VIEW_NAME)
+public class DashBoardView extends VerticalLayout implements View {
+    public static final String VIEW_NAME = "dashboard";
+    public static User currentUser;
 
     /**
      * List of widgets linked to the widgets grid
@@ -53,21 +44,9 @@ public class VaadinUI extends UI {
      */
     private ComboBox<AWidget> select = new ComboBox<>("Select a widget");
 
-    /**
-     * In this beta the models have to be instantiated here
-     * do not forget to add it to the models and instantiate the submit listener as in the example
-     */
-    private void initModels() {
-        //SimpleWidget widget = new SimpleWidget(0, String.valueOf(Math.random() * (30000 - 0)));
 
-        //models.getItems().add(widget);
-        //widget.addSubmitListener(e -> submitListener(e, widget.clone()));
-    }
-
-    /**
-     * Initializes the layouts of the page
-     */
-    private void initLayouts(){
+    @PostConstruct
+    private void init() {
         Button button = new Button("Add a widget", VaadinIcons.PLUS);
         VerticalLayout popupContent = new VerticalLayout();
         PopupView selectWidgets = new PopupView(null, popupContent);
@@ -78,22 +57,21 @@ public class VaadinUI extends UI {
         select.setItemCaptionGenerator(AWidget::getName);
         selectWidgets.setWidth("500px");
         popupContent.addComponent(select);
-        layout.addComponent(selectWidgets);
-        layout.setMargin(true);
-        layout.setSpacing(true);
-        layout.addComponent(button);
-        layout.setComponentAlignment(selectWidgets, Alignment.TOP_CENTER);
-        layout.addComponent(widgetsGrid);
-        setContent(layout);
+        addComponent(selectWidgets);
+        setMargin(true);
+        setSpacing(true);
+        addComponent(button);
+        setComponentAlignment(selectWidgets, Alignment.TOP_CENTER);
+        addComponent(widgetsGrid);
         select.addSelectionListener(this::selectionListener);
         button.addClickListener(e -> selectWidgets.setPopupVisible(true));
     }
 
     @Override
-    protected void init(VaadinRequest vaadinRequest) {
-        initLayouts();
-        initModels();
+    public void enter(ViewChangeListener.ViewChangeEvent event) {
+        // This view is constructed in the init() method()
     }
+
 
     /**
      * Listener to be attached to every widget model
@@ -103,7 +81,7 @@ public class VaadinUI extends UI {
     private void submitListener(Button.ClickEvent event, AWidget widget)
     {
         formWindow.close();
-        widget.submitted();
+        //widget.submitted();
         addWidget(widget);
         select.setValue(null);
     }
@@ -118,8 +96,8 @@ public class VaadinUI extends UI {
             return;
         formWindow = widget.getFormWindow();
         formWindow.center();
-        removeWindow(formWindow);
-        addWindow(formWindow);
+        //removeWindow(formWindow);
+        //addWindow(formWindow);
     }
 
     /**
