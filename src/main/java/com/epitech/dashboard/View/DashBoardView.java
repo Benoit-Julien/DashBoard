@@ -1,6 +1,7 @@
 package com.epitech.dashboard.View;
 
 import com.epitech.dashboard.AWidget;
+import com.epitech.dashboard.SimpleWidget;
 import com.epitech.dashboard.User;
 import com.vaadin.data.provider.ListDataProvider;
 import com.vaadin.event.selection.SingleSelectionEvent;
@@ -37,7 +38,7 @@ public class DashBoardView extends VerticalLayout implements View {
     /**
      * Window containing the form for a widget (null or last widget instantiated form)
      */
-    private Window formWindow = new Window();
+    private PopupView formWindow = null;
 
     /**
      * ComoBox Displaying the available
@@ -65,6 +66,11 @@ public class DashBoardView extends VerticalLayout implements View {
         addComponent(widgetsGrid);
         select.addSelectionListener(this::selectionListener);
         button.addClickListener(e -> selectWidgets.setPopupVisible(true));
+        /*
+        SimpleWidget simple = new SimpleWidget(0);
+        models.getItems().add(simple);
+        simple.addSubmitListener(e -> submitListener(e, simple.clone()));
+         */
     }
 
     @Override
@@ -80,8 +86,8 @@ public class DashBoardView extends VerticalLayout implements View {
      */
     private void submitListener(Button.ClickEvent event, AWidget widget)
     {
-        formWindow.close();
-        //widget.submitted();
+        formWindow.setPopupVisible(false);
+        widget.submitted();
         addWidget(widget);
         select.setValue(null);
     }
@@ -95,7 +101,9 @@ public class DashBoardView extends VerticalLayout implements View {
         if (widget == null)
             return;
         formWindow = widget.getFormWindow();
-        formWindow.center();
+        removeComponent(formWindow);
+        addComponent(formWindow);
+        formWindow.setPopupVisible(true);
         //removeWindow(formWindow);
         //addWindow(formWindow);
     }

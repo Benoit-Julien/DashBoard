@@ -30,7 +30,7 @@ abstract public class AWidget {
     /**
      * Popup view to contain the form which will instantiate a widget
      */
-    protected Window formWindow = new Window();
+    protected PopupView formWindow = null;
 
     /**
      * Main component, this is the component who must be displayed
@@ -58,9 +58,8 @@ abstract public class AWidget {
         submitButton.addClickListener(e -> this.submitted());
         VerticalLayout layout = new VerticalLayout();
         layout.addComponent(formContent);
-        formWindow.setContent(layout);
+        formWindow = new PopupView(null, layout);
         layout.setComponentAlignment(formContent, Alignment.MIDDLE_CENTER);
-        formWindow.center();
     }
 
     /**
@@ -96,7 +95,7 @@ abstract public class AWidget {
      * Getter for the form window
      * @return Window to be displayed
      */
-    public Window getFormWindow(){
+    public PopupView getFormWindow(){
         formContent.addComponent(submitButton);
         formContent.setComponentAlignment(submitButton, Alignment.BOTTOM_LEFT);
         return formWindow;
@@ -117,7 +116,7 @@ abstract public class AWidget {
     /**
      * Method will be called when the form is submitted
      */
-    protected abstract boolean submitted();
+    public abstract boolean submitted();
 
     public Component getComponent(){
         return mainDisplay;
