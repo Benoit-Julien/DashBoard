@@ -6,7 +6,7 @@ public class SimpleWidget extends AWidget {
 
     protected TextField nameField = new TextField();
 
-    protected SimpleWidget(int uid, String name) {
+    public SimpleWidget(int uid) {
         super(uid, "Youtube Subscriptors");
         formContent.addComponent(nameField);
     }
@@ -21,9 +21,9 @@ public class SimpleWidget extends AWidget {
     }
 
     @Override
-    public Window getFormWindow()
+    public PopupView getFormWindow()
     {
-        Window ret = super.getFormWindow();
+        PopupView ret = super.getFormWindow();
         return ret;
     }
 
@@ -38,7 +38,7 @@ public class SimpleWidget extends AWidget {
     }
 
     @Override
-    protected boolean submitted() {
+    public boolean submitted() {
         mainDisplay.addComponent(new Button(nameField.getValue()));
         return true;
     }
