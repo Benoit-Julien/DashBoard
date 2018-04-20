@@ -5,19 +5,6 @@ import com.vaadin.ui.*;
 abstract public class AWidget {
 
     /**
-     * Inner class to have total control over the widget layout
-     */
-    protected class MainLayout extends VerticalLayout{
-        public static final String CLASSNAME = "MainLayout";
-
-        public MainLayout(){
-            setStyleName(CLASSNAME);
-            setWidth("200px");
-            setHeight("200px");
-        }
-    }
-
-    /**
      * Name to be displayed in the combo box
      */
     private String name;
@@ -35,7 +22,7 @@ abstract public class AWidget {
     /**
      * Main component, this is the component who must be displayed
      */
-    protected MainLayout mainDisplay = new MainLayout();
+    protected AbsoluteLayout mainDisplay = new AbsoluteLayout();
 
     /**
      * Layout to contain the form to instantiate a widget
@@ -79,7 +66,7 @@ abstract public class AWidget {
     public AWidget(AWidget widget){
         uid = widget.uid;
         name = widget.name;
-        mainDisplay = new MainLayout();
+        mainDisplay = new AbsoluteLayout();
         formContent = widget.formContent;
     }
 
