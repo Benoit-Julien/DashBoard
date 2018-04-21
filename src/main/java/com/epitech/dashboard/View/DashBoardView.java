@@ -1,10 +1,11 @@
 package com.epitech.dashboard.View;
 
 import com.epitech.dashboard.AWidget;
-import com.epitech.dashboard.LastVidWidget;
-import com.epitech.dashboard.SimpleWidget;
+import com.epitech.dashboard.LastVideoWidget;
+import com.epitech.dashboard.TopTrendingWidget;
 import com.epitech.dashboard.User;
 import com.jarektoro.responsivelayout.ResponsiveLayout;
+import com.vaadin.annotations.Theme;
 import com.vaadin.data.provider.ListDataProvider;
 import com.vaadin.event.selection.SingleSelectionEvent;
 import com.vaadin.icons.VaadinIcons;
@@ -68,8 +69,11 @@ public class DashBoardView extends VerticalLayout implements View {
         addComponent(widgetsGrid);
         select.addSelectionListener(this::selectionListener);
         button.addClickListener(e -> selectWidgets.setPopupVisible(true));
-        LastVidWidget simple = new LastVidWidget(0);
+        LastVideoWidget simple = new LastVideoWidget(0);
+        TopTrendingWidget two = new TopTrendingWidget(1);
         models.getItems().add(simple);
+        models.getItems().add(two);
+        two.addSubmitListener(e -> submitListener(e, two.clone()));
         simple.addSubmitListener(e -> submitListener(e, simple.clone()));
     }
 
@@ -103,6 +107,7 @@ public class DashBoardView extends VerticalLayout implements View {
         formWindow = widget.getFormWindow();
         removeComponent(formWindow);
         addComponent(formWindow);
+        formWindow.setSizeFull();
         formWindow.setPopupVisible(true);
     }
 

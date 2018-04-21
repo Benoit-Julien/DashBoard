@@ -19,6 +19,8 @@ abstract public class AWidget {
      */
     protected PopupView formWindow = null;
 
+    protected static final String CLONE_ERR = "Source widget and destination widget do not match, impossible to clone!";
+
     /**
      * Main component, this is the component who must be displayed
      */

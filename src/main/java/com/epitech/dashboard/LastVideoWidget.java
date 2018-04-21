@@ -1,37 +1,20 @@
 package com.epitech.dashboard;
 
-import com.epitech.dashboard.youtube.LastVideoWidget;
+import com.epitech.dashboard.youtube.LastVideoWidgetLayout;
+import com.epitech.dashboard.youtube.VideoLayout;
 import com.epitech.dashboard.youtube.YoutubeRequests;
 import com.google.api.services.youtube.model.Channel;
 import com.google.api.services.youtube.model.ChannelListResponse;
 import com.google.api.services.youtube.model.PlaylistItem;
 import com.vaadin.server.ExternalResource;
-import com.vaadin.server.FileResource;
-import com.vaadin.ui.Image;
-import com.vaadin.ui.Label;
 import com.vaadin.ui.TextField;
 
-import java.io.File;
-import java.net.MalformedURLException;
-import java.net.URL;
 
-public class LastVidWidget extends AWidget {
 
-    class InnerWidget extends LastVideoWidget{
-        public Image getThumbnail(){
-            return thumbnail;
-        }
+public class LastVideoWidget extends AWidget {
 
-        public Label getTitle(){
-            return title;
-        }
 
-        public Label getDate(){
-            return date;
-        }
-    }
-
-    private LastVideoWidget widget = new InnerWidget();
+    private LastVideoWidgetLayout widget = new VideoLayout();
 
     private YoutubeRequests requests = new YoutubeRequests();
 
@@ -39,28 +22,29 @@ public class LastVidWidget extends AWidget {
 
     private Channel channel = null;
 
-    public LastVidWidget(int uid) {
+    public LastVideoWidget(int uid) {
         super(uid, "Last channel's video");
         formContent.addComponent(idField);
     }
 
-    private LastVidWidget(AWidget source) {
+    private LastVideoWidget(AWidget source) {
         super(source);
-        if (source instanceof LastVidWidget) {
-            requests = ((LastVidWidget) source).requests;
-            idField = ((LastVidWidget) source).idField;
-            widget = new InnerWidget();
+        if (source instanceof LastVideoWidget) {
+            requests = ((LastVideoWidget) source).requests;
+            idField = ((LastVideoWidget) source).idField;
+            widget = new VideoLayout();
         } else
-            throw new IllegalArgumentException("Cannot instantiate any widget to last vid widget");
+            throw new IllegalArgumentException(CLONE_ERR);
     }
 
     @Override
     public void refresh() {
         PlaylistItem video = requests.getChannelLastVideo(channel);
         try {
-            ((InnerWidget)widget).getThumbnail().setSource(new ExternalResource(video.getSnippet().getThumbnails().getDefault().getUrl()));
-            ((InnerWidget)widget).getTitle().setValue(video.getSnippet().getTitle());
-            ((InnerWidget)widget).getDate().setValue(video.getSnippet().getPublishedAt().toString());
+            ((VideoLayout)widget).getThumbnail().setSource(new ExternalResource(video.getSnippet().getThumbnails().getDefault().getUrl()));
+            ((VideoLayout)widget).getTitle().setCaption(video.getSnippet().getTitle());
+            ((VideoLayout)widget).getTitle().setResource(new ExternalResource(requests.buildVideoLink(video.getContentDetails().getVideoId())));
+            ((VideoLayout)widget).getDate().setValue(video.getSnippet().getPublishedAt().toString());
         }catch (NullPointerException e)
         {
             e.printStackTrace();
@@ -69,7 +53,7 @@ public class LastVidWidget extends AWidget {
 
     @Override
     public AWidget clone() {
-        return new LastVidWidget(this);
+        return new LastVideoWidget(this);
     }
 
     /**

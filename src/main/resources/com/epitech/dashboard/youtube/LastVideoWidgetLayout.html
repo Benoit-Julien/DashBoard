@@ -8,12 +8,10 @@
  <body>
   <vaadin-absolute-layout width="200px" height="200px">
    <vaadin-image width-full height="50%" _id="thumbnail" :top="0px" :left="0px"></vaadin-image>
-   <vaadin-label width-full height="50%" plain-text _id="title" :top="100px" :left="0px">
-     Title of the video 
-   </vaadin-label>
-   <vaadin-label size-full plain-text _id="date" :top="157px" :left="0px">
+   <vaadin-label style-name="small" size-full plain-text _id="date" :top="157px" :left="0px">
      Date 
    </vaadin-label>
+   <vaadin-link caption="Title of the video" width-full height="50%" _id="title" :top="100px" :left="0px"></vaadin-link>
   </vaadin-absolute-layout>
  </body>
 </html>
