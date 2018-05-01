@@ -1,9 +1,8 @@
-package com.epitech.dashboard;
+package com.epitech.dashboard.Widgets;
 
 import com.epitech.dashboard.youtube.LastVideoWidgetLayout;
 import com.epitech.dashboard.youtube.VideoLayout;
 import com.epitech.dashboard.youtube.YoutubeRequests;
-import com.google.api.services.youtube.model.PlaylistItem;
 import com.google.api.services.youtube.model.Video;
 import com.vaadin.data.provider.ListDataProvider;
 import com.vaadin.server.ExternalResource;

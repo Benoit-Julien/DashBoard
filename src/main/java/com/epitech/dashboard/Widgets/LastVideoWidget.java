@@ -1,4 +1,4 @@
-package com.epitech.dashboard;
+package com.epitech.dashboard.Widgets;
 
 import com.epitech.dashboard.youtube.LastVideoWidgetLayout;
 import com.epitech.dashboard.youtube.VideoLayout;
