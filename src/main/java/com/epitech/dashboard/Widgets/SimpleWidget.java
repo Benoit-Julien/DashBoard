@@ -1,5 +1,6 @@
 package com.epitech.dashboard.Widgets;
 
+import com.epitech.dashboard.Widget;
 import com.vaadin.ui.*;
 
 public class SimpleWidget extends AWidget {

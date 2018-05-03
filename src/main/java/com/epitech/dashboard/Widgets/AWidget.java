@@ -1,5 +1,6 @@
 package com.epitech.dashboard.Widgets;
 
+import com.epitech.dashboard.Widget;
 import com.vaadin.ui.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Field;

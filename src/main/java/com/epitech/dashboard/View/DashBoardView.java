@@ -82,13 +82,13 @@ public class DashBoardView extends VerticalLayout implements View {
         LastVideoWidget simple = new LastVideoWidget();
         TopTrendingWidget two = new TopTrendingWidget();
         RSSFeedWidget rss = new RSSFeedWidget();
-	
+
         models.getItems().add(simple);
         models.getItems().add(two);
         models.getItems().add(rss);
 
         simple.addSubmitListener(e -> submitListener(e, simple.clone()));
-	two.addSubmitListener(e -> submitListener(e, two.clone()));
+        two.addSubmitListener(e -> submitListener(e, two.clone()));
         rss.addSubmitListener(e -> submitListener(e, rss.clone()));
         //endregion
 

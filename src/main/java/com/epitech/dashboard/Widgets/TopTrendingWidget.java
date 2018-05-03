@@ -1,5 +1,6 @@
 package com.epitech.dashboard.Widgets;
 
+import com.epitech.dashboard.Widget;
 import com.epitech.dashboard.youtube.LastVideoWidgetLayout;
 import com.epitech.dashboard.youtube.Region;
 import com.epitech.dashboard.youtube.VideoLayout;
