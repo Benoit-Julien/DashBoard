@@ -1,8 +1,12 @@
 package com.epitech.dashboard.View;
 
 import com.epitech.dashboard.*;
+import com.epitech.dashboard.Widgets.AWidget;
+import com.epitech.dashboard.Widgets.LastVideoWidget;
+import com.epitech.dashboard.Widgets.RSSFeedWidget;
+import com.epitech.dashboard.Widgets.TopTrendingWidget;
+import com.epitech.dashboard.User;
 import com.jarektoro.responsivelayout.ResponsiveLayout;
-import com.vaadin.annotations.Theme;
 import com.vaadin.data.provider.ListDataProvider;
 import com.vaadin.event.selection.SingleSelectionEvent;
 import com.vaadin.icons.VaadinIcons;
@@ -77,10 +81,15 @@ public class DashBoardView extends VerticalLayout implements View {
         //region Init widget models
         LastVideoWidget simple = new LastVideoWidget();
         TopTrendingWidget two = new TopTrendingWidget();
+        RSSFeedWidget rss = new RSSFeedWidget();
+	
         models.getItems().add(simple);
         models.getItems().add(two);
-        two.addSubmitListener(e -> submitListener(e, two.clone()));
+        models.getItems().add(rss);
+
         simple.addSubmitListener(e -> submitListener(e, simple.clone()));
+	two.addSubmitListener(e -> submitListener(e, two.clone()));
+        rss.addSubmitListener(e -> submitListener(e, rss.clone()));
         //endregion
 
         //region Init dynamic widgets

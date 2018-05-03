@@ -1,4 +1,4 @@
-package com.epitech.dashboard;
+package com.epitech.dashboard.Widgets;
 
 import com.vaadin.ui.*;
 import org.springframework.data.annotation.Id;
