@@ -16,23 +16,6 @@ import java.util.*;
 
 public class YoutubeRequests {
 
-    public class Region{
-
-        public String code;
-
-        public String name;
-
-        public Region(String code_src, String name_src)
-        {
-            code = code_src;
-            name = name_src;
-        }
-
-        public String toString(){
-            return name;
-        }
-    }
-
     private static final String API_KEY = "AIzaSyDNNiVF69c_TfUPTBk598pu_E-q4RsZn4g";
 
     private static final String LINK = "https://www.youtube.com/watch?v=";
@@ -194,7 +177,7 @@ public class YoutubeRequests {
             parameters.put("chart", "mostPopular");
             parameters.put("key", API_KEY);
             parameters.put("maxResults", "1");
-            parameters.put("regionCode", region.code);
+            parameters.put("regionCode", region.getCode());
 
             YouTube.Videos.List videosListMostPopularRequest = youtube.videos().list(parameters.get("part"));
             videosListMostPopularRequest.setKey(parameters.get("key"));

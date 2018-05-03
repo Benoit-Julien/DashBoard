@@ -6,8 +6,8 @@ public class SimpleWidget extends AWidget {
 
     protected TextField nameField = new TextField();
 
-    public SimpleWidget(int uid) {
-        super(uid, "Youtube Subscriptors");
+    public SimpleWidget() {
+        super("Youtube Subscriptors");
         formContent.addComponent(nameField);
     }
 
@@ -35,6 +35,16 @@ public class SimpleWidget extends AWidget {
     @Override
     public AWidget clone() {
         return new SimpleWidget(this);
+    }
+
+    @Override
+    public void loadFromData(Widget source) {
+
+    }
+
+    @Override
+    public Widget SaveWidget() {
+        return null;
     }
 
     @Override

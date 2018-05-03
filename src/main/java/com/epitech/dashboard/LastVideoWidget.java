@@ -3,12 +3,14 @@ package com.epitech.dashboard;
 import com.epitech.dashboard.youtube.LastVideoWidgetLayout;
 import com.epitech.dashboard.youtube.VideoLayout;
 import com.epitech.dashboard.youtube.YoutubeRequests;
+import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.youtube.model.Channel;
 import com.google.api.services.youtube.model.ChannelListResponse;
 import com.google.api.services.youtube.model.PlaylistItem;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.ui.TextField;
 
+import java.io.IOException;
 
 
 public class LastVideoWidget extends AWidget {
@@ -22,8 +24,8 @@ public class LastVideoWidget extends AWidget {
 
     private Channel channel = null;
 
-    public LastVideoWidget(int uid) {
-        super(uid, "Last channel's video");
+    public LastVideoWidget() {
+        super("Last channel's video");
         formContent.addComponent(idField);
     }
 
@@ -56,6 +58,27 @@ public class LastVideoWidget extends AWidget {
         return new LastVideoWidget(this);
     }
 
+    @Override
+    public void loadFromData(Widget source) {
+        String m = (String) source.getInstance();
+        JacksonFactory factory = new JacksonFactory();
+        channel = new Channel();
+        try {
+            channel = factory.fromString(m, channel.getClass());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        submitted();
+    }
+
+    @Override
+    public Widget SaveWidget() {
+        Widget save = new Widget();
+        save.setType(this.getClass().getName());
+        save.setInstance(channel.toString());
+        return save;
+    }
+
     /**
      * Sets the var channel based on the url
      * @param url Url of the channel
@@ -71,7 +94,8 @@ public class LastVideoWidget extends AWidget {
 
     @Override
     public boolean submitted() {
-        setChannel(idField.getValue());
+        if (channel == null)
+            setChannel(idField.getValue());
         refresh();
         mainDisplay = widget;
         return true;

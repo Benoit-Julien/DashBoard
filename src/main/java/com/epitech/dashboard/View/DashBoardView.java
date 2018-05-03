@@ -1,9 +1,6 @@
 package com.epitech.dashboard.View;
 
-import com.epitech.dashboard.AWidget;
-import com.epitech.dashboard.LastVideoWidget;
-import com.epitech.dashboard.TopTrendingWidget;
-import com.epitech.dashboard.User;
+import com.epitech.dashboard.*;
 import com.jarektoro.responsivelayout.ResponsiveLayout;
 import com.vaadin.annotations.Theme;
 import com.vaadin.data.provider.ListDataProvider;
@@ -13,8 +10,10 @@ import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.*;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
+import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,6 +42,9 @@ public class DashBoardView extends VerticalLayout implements View {
      */
     private PopupView formWindow = null;
 
+    @Autowired
+    private WidgetRepository widgetRepository;
+
     /**
      * ComoBox Displaying the available
      */
@@ -55,6 +57,7 @@ public class DashBoardView extends VerticalLayout implements View {
         VerticalLayout popupContent = new VerticalLayout();
         PopupView selectWidgets = new PopupView(null, popupContent);
 
+        //region Init static content
         select.setWidth("100%");
         select.setDataProvider(models);
         select.setTextInputAllowed(false);
@@ -69,12 +72,37 @@ public class DashBoardView extends VerticalLayout implements View {
         addComponent(widgetsGrid);
         select.addSelectionListener(this::selectionListener);
         button.addClickListener(e -> selectWidgets.setPopupVisible(true));
-        LastVideoWidget simple = new LastVideoWidget(0);
-        TopTrendingWidget two = new TopTrendingWidget(1);
+        //endregion
+
+        //region Init widget models
+        LastVideoWidget simple = new LastVideoWidget();
+        TopTrendingWidget two = new TopTrendingWidget();
         models.getItems().add(simple);
         models.getItems().add(two);
         two.addSubmitListener(e -> submitListener(e, two.clone()));
         simple.addSubmitListener(e -> submitListener(e, simple.clone()));
+        //endregion
+
+        //region Init dynamic widgets
+        List<Widget> widgetList = null;
+        try {
+            widgetList = widgetRepository.findWidgetsByOwner(currentUser);
+            for (Widget data : widgetList) {
+                try {
+                    Class<?> clazz = Class.forName(data.getType());
+                    Constructor<?> constructor = clazz.getConstructor();
+                    AWidget instance = (AWidget) constructor.newInstance();
+                    instance.loadFromData(data);
+                    addWidget(instance);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        updateGrid();
+        //endregion
     }
 
     @Override
@@ -85,19 +113,23 @@ public class DashBoardView extends VerticalLayout implements View {
 
     /**
      * Listener to be attached to every widget model
-     * @param event Event to be handled
+     *
+     * @param event  Event to be handled
      * @param widget Widget instantiated
      */
-    private void submitListener(Button.ClickEvent event, AWidget widget)
-    {
+    private void submitListener(Button.ClickEvent event, AWidget widget) {
         formWindow.setPopupVisible(false);
         widget.submitted();
+        Widget save = widget.SaveWidget();
+        save.setOwner(currentUser);
+        widgetRepository.save(save);
         addWidget(widget);
         select.setValue(null);
     }
 
     /**
      * Triggers when an item from the combo box list is selected
+     *
      * @param event Event to be handled
      */
     private void selectionListener(SingleSelectionEvent<AWidget> event) {
@@ -113,6 +145,7 @@ public class DashBoardView extends VerticalLayout implements View {
 
     /**
      * Adds a widget to the list
+     *
      * @param widget Initialized widget
      */
     private void addWidget(AWidget widget) {
