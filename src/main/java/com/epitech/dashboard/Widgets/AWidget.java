@@ -1,6 +1,12 @@
 package com.epitech.dashboard.Widgets;
 
+import com.epitech.dashboard.Widget;
 import com.vaadin.ui.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Field;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 
 abstract public class AWidget {
 
@@ -10,15 +16,13 @@ abstract public class AWidget {
     private String name;
 
     /**
-     * Integer to give an unique id to all children classes
-     */
-    private int uid;
-
-    /**
      * Popup view to contain the form which will instantiate a widget
      */
     protected PopupView formWindow = null;
 
+    /**
+     * Error to be thrown when cloning unmatched widgets
+     */
     protected static final String CLONE_ERR = "Source widget and destination widget do not match, impossible to clone!";
 
     /**
@@ -38,11 +42,9 @@ abstract public class AWidget {
 
     /**
      * Constructor mainly to use in case of instantiation of a model
-     * @param uid Unique Id of the model
      * @param name Unique name of the model
      */
-    protected AWidget(int uid, String name){
-        this.uid = uid;
+    protected AWidget(String name){
         this.name = name;
         submitButton.addClickListener(e -> this.submitted());
         VerticalLayout layout = new VerticalLayout();
@@ -66,18 +68,9 @@ abstract public class AWidget {
      * @param widget Widget to copy
      */
     public AWidget(AWidget widget){
-        uid = widget.uid;
         name = widget.name;
         mainDisplay = new AbsoluteLayout();
         formContent = widget.formContent;
-    }
-
-    /**
-     * Unique id getter
-     * @return Unique id of the model
-     */
-    public int getUid() {
-        return uid;
     }
 
     /**
@@ -101,6 +94,19 @@ abstract public class AWidget {
      * @return A cloned widget
      */
     public abstract AWidget clone();
+
+    /**
+     * Initializes the widget with all the necessary data
+     * @param source Data to instantiate from
+     */
+    public abstract void loadFromData(Widget source);
+
+    /**
+     * Instantiate a widget object with the necessary
+     * data to re-instantiate it later
+     * @return Widget to be stored
+     */
+    public abstract Widget SaveWidget();
 
     /**
      * Method will be called when the form is submitted

@@ -1,6 +1,7 @@
 package com.epitech.dashboard.Widgets;
 
 import com.epitech.dashboard.RSSFeed.RSSWidgetLayout;
+import com.epitech.dashboard.Widget;
 import com.rometools.rome.feed.synd.SyndEntry;
 import com.rometools.rome.feed.synd.SyndFeed;
 import com.rometools.rome.io.SyndFeedInput;
@@ -19,8 +20,8 @@ public class RSSFeedWidget extends AWidget {
 
     private URL currentRssFeed;
 
-    public RSSFeedWidget(int uid) {
-        super(uid, "RSS Feed");
+    public RSSFeedWidget() {
+        super("RSS Feed");
 
         urlField = new TextField("Rss url : ");
 
@@ -74,6 +75,16 @@ public class RSSFeedWidget extends AWidget {
     @Override
     public AWidget clone() {
         return new RSSFeedWidget(this);
+    }
+
+    @Override
+    public void loadFromData(Widget source) {
+
+    }
+
+    @Override
+    public Widget SaveWidget() {
+        return null;
     }
 
     @Override
