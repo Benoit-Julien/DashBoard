@@ -29,8 +29,7 @@ public class RSSFeedWidget extends AWidget {
         widget = new RSSWidgetLayout();
     }
 
-    private RSSFeedWidget(AWidget source)
-    {
+    private RSSFeedWidget(AWidget source) {
         super(source);
         if (source instanceof RSSFeedWidget) {
             urlField = ((RSSFeedWidget) source).urlField;
@@ -65,10 +64,9 @@ public class RSSFeedWidget extends AWidget {
                 widget.getDesc().setValue(current.getDescription().getValue());
             else
                 widget.getDesc().setEnabled(false);
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
-            System.out.println("ERROR: "+ex.getMessage());
+            System.out.println("ERROR: " + ex.getMessage());
         }
     }
 
@@ -79,18 +77,27 @@ public class RSSFeedWidget extends AWidget {
 
     @Override
     public void loadFromData(Widget source) {
-
+        try {
+            currentRssFeed = new URL((String)source.getInstance());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        submitted();
     }
 
     @Override
     public Widget SaveWidget() {
-        return null;
+        Widget save = new Widget();
+        save.setInstance(currentRssFeed.toString());
+        save.setType(this.getClass().getName());
+        return save;
     }
 
     @Override
     public boolean submitted() {
         try {
-            currentRssFeed = new URL(urlField.getValue());
+            if (currentRssFeed == null)
+                currentRssFeed = new URL(urlField.getValue());
             //currentRssFeed = new URL("http://www.lemonde.fr/rss/une.xml");
             mainDisplay = widget;
             refresh();
