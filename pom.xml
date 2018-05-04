@@ -43,25 +43,6 @@
         </dependency>
 
         <dependency>
-            <groupId>com.google.apis</groupId>
-            <artifactId>google-api-services-youtube</artifactId>
-            <version>v3-rev195-1.23.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.rometools</groupId>
-            <artifactId>rome</artifactId>
-            <version>1.9.0</version>
-        </dependency>
-
-        <!-- https://mvnrepository.com/artifact/net.aksingh/owm-japis -->
-        <dependency>
-            <groupId>net.aksingh</groupId>
-            <artifactId>owm-japis</artifactId>
-            <version>2.5.2.2</version>
-        </dependency>
-
-        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
@@ -72,11 +53,35 @@
             <artifactId>responsive-layout</artifactId>
             <version>2.1.1</version>
         </dependency>
+
         <dependency>
             <groupId>com.vaadin</groupId>
             <artifactId>vaadin-themes</artifactId>
             <version>${vaadin.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.google.apis</groupId>
+            <artifactId>google-api-services-youtube</artifactId>
+            <version>v3-rev195-1.23.0</version>
+        </dependency>
+
+        <!-- Begin: RSS Feed Dependency-->
+        <dependency>
+            <groupId>com.rometools</groupId>
+            <artifactId>rome</artifactId>
+            <version>1.9.0</version>
+        </dependency>
+        <!-- End: RSS Feed Dependency-->
+
+        <!-- Begin: Open Weather Map Dependencies-->
+        <dependency>
+            <groupId>net.aksingh</groupId>
+            <artifactId>owm-japis</artifactId>
+            <version>2.5.2.2</version>
+        </dependency>
+        <!-- End: Open Weather Map Dependencies-->
+
     </dependencies>
 
     <dependencyManagement>
