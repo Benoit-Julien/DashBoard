@@ -80,16 +80,19 @@ public class DashBoardView extends VerticalLayout implements View {
         TopTrendingWidget two = new TopTrendingWidget();
         RSSFeedWidget rss = new RSSFeedWidget();
         WeatherAndTimeWidget wat = new WeatherAndTimeWidget();
+        VideoViews videoViews = new VideoViews();
 
         models.getItems().add(simple);
         models.getItems().add(two);
         models.getItems().add(rss);
         models.getItems().add(wat);
+        models.getItems().add(videoViews);
 
         simple.addSubmitListener(e -> submitListener(e, simple.clone()));
         two.addSubmitListener(e -> submitListener(e, two.clone()));
         rss.addSubmitListener(e -> submitListener(e, rss.clone()));
         wat.addSubmitListener(e -> submitListener(e, wat.clone()));
+        videoViews.addSubmitListener(e -> submitListener(e, videoViews.clone()));
         //endregion
 
         //region Init dynamic widgets
@@ -127,13 +130,17 @@ public class DashBoardView extends VerticalLayout implements View {
      * @param widget Widget instantiated
      */
     private void submitListener(Button.ClickEvent event, AWidget widget) {
-        formWindow.setPopupVisible(false);
-        widget.submitted();
-        Widget save = widget.SaveWidget();
-        save.setOwner(currentUser);
-        widgetRepository.save(save);
-        addWidget(widget);
-        select.setValue(null);
+        try {
+            formWindow.setPopupVisible(false);
+            widget.submitted();
+            Widget save = widget.SaveWidget();
+            save.setOwner(currentUser);
+            widgetRepository.save(save);
+            addWidget(widget);
+            select.setValue(null);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
