@@ -3,7 +3,9 @@ package com.epitech.dashboard.View;
 import com.epitech.dashboard.*;
 import com.epitech.dashboard.Widgets.*;
 import com.epitech.dashboard.User;
+import com.github.wolfie.refresher.Refresher;
 import com.jarektoro.responsivelayout.ResponsiveLayout;
+import com.vaadin.annotations.Push;
 import com.vaadin.data.provider.ListDataProvider;
 import com.vaadin.event.selection.SingleSelectionEvent;
 import com.vaadin.icons.VaadinIcons;
@@ -22,6 +24,36 @@ import java.util.List;
 public class DashBoardView extends VerticalLayout implements View {
     public static final String VIEW_NAME = "dashboard";
     public static User currentUser;
+    private boolean stop = false;
+
+    public class RefreshThread extends Thread {
+        @Override
+        public void run() {
+            while (true) {
+                try {
+                    stop = sleepToUpdate();
+                    Runnable uiRunnable = () -> {
+                        for (AWidget widget : widgets) {
+                            widget.refresh();
+                        }
+                    };
+                    getUI().access(uiRunnable);
+                    getUI().push();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        private boolean sleepToUpdate() {
+            try {
+                Thread.sleep(30000);
+            } catch (final InterruptedException ignore) {
+                ignore.printStackTrace();
+            }
+            return true;
+        }
+    }
 
     /**
      * List of widgets linked to the widgets grid
@@ -121,6 +153,11 @@ public class DashBoardView extends VerticalLayout implements View {
         }
         updateGrid();
         //endregion
+
+        //region Update thread
+        new RefreshThread().start();
+        //endregion
+
     }
 
     @Override
@@ -181,13 +218,11 @@ public class DashBoardView extends VerticalLayout implements View {
      * Updates the widgets grid
      */
     private void updateGrid() {
-        widgetsGrid.removeAllComponents();
-        int n = 0;
         for (AWidget widget : widgets) {
-            Component comp = widget.getComponent();
-            comp.setId(String.valueOf(n));
-            widgetsGrid.addComponent(comp);
-            n++;
+            if (widgetsGrid.getComponentIndex(widget.getComponent()) == -1)
+                widgetsGrid.addComponent(widget.getComponent());
+            else
+                widgetsGrid.replaceComponent(widget.getComponent(), widget.getComponent());
         }
     }
 }

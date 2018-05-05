@@ -49,6 +49,12 @@
         </dependency>
 
         <dependency>
+            <groupId>com.vaadin</groupId>
+            <artifactId>vaadin-push</artifactId>
+            <version>${vaadin.version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>com.jarektoro</groupId>
             <artifactId>responsive-layout</artifactId>
             <version>2.1.1</version>
@@ -65,6 +71,14 @@
             <artifactId>google-api-services-youtube</artifactId>
             <version>v3-rev195-1.23.0</version>
         </dependency>
+
+        <!-- Begin: Refresher Dependency -->
+        <dependency>
+            <groupId>org.vaadin.addons</groupId>
+            <artifactId>refresher</artifactId>
+            <version>1.2.3.7</version>
+        </dependency>
+        <!-- End: Refresher Dependency -->
 
         <!-- Begin: RSS Feed Dependency -->
         <dependency>
