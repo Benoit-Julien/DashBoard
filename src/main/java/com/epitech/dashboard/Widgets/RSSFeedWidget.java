@@ -53,9 +53,14 @@ public class RSSFeedWidget extends AWidget {
             widget.getTitle().setCaption(current.getTitle());
             widget.getTitle().setResource(new ExternalResource(current.getLink()));
             widget.getTitle().setTargetName("_blank");
-            widget.getDate().setValue(current.getPublishedDate().toString());
+            if (current.getPublishedDate() != null)
+                widget.getDate().setValue(current.getPublishedDate().toString());
+            else
+                widget.getDate().setEnabled(false);
 
-            if (!current.getEnclosures().isEmpty() && current.getEnclosures().get(0).getType().contains("image"))
+            if (current.getEnclosures() != null
+                    && !current.getEnclosures().isEmpty()
+                    && current.getEnclosures().get(0).getType().contains("image"))
                 widget.getImage().setSource(new ExternalResource(current.getEnclosures().get(0).getUrl()));
             else
                 widget.getImage().setEnabled(false);
