@@ -223,4 +223,9 @@ public class YoutubeRequests {
         }
         return null;
     }
+
+    public int getNumberSubscribers(String urlChannel) {
+        ChannelListResponse response =  findChannel(urlChannel);
+        return response.getItems().get(0).getStatistics().getSubscriberCount().intValue();
+    }
 }
