@@ -49,10 +49,13 @@ public class TopTrendingWidget extends AWidget {
     public void refresh() {
         Video video = requests.getTopTrendingVideo(country);
         try {
+            String title = video.getSnippet().getTitle();
+            if (title.length() > 20)
+                title = title.substring(0, 19).concat("...");
             ((VideoLayout)widget).getThumbnail().setSource(new ExternalResource(video.getSnippet().getThumbnails().getDefault().getUrl()));
-            ((VideoLayout)widget).getTitle().setCaption(video.getSnippet().getTitle());
+            ((VideoLayout)widget).getTitle().setCaption(title);
             ((VideoLayout)widget).getTitle().setResource(new ExternalResource(requests.buildVideoLink(video.getId())));
-            ((VideoLayout)widget).getDate().setValue(video.getSnippet().getDescription());
+            ((VideoLayout)widget).getDate().setValue("Top trending video in: ".concat(country.getName()));
         }catch (NullPointerException e)
         {
             e.printStackTrace();

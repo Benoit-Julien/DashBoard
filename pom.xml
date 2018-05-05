@@ -66,21 +66,32 @@
             <version>v3-rev195-1.23.0</version>
         </dependency>
 
-        <!-- Begin: RSS Feed Dependency-->
+        <!-- Begin: RSS Feed Dependency -->
         <dependency>
             <groupId>com.rometools</groupId>
             <artifactId>rome</artifactId>
             <version>1.9.0</version>
         </dependency>
-        <!-- End: RSS Feed Dependency-->
+        <!-- End: RSS Feed Dependency -->
 
-        <!-- Begin: Open Weather Map Dependencies-->
+        <!-- Begin: Open Weather Map Dependency -->
         <dependency>
             <groupId>net.aksingh</groupId>
             <artifactId>owm-japis</artifactId>
             <version>2.5.2.2</version>
         </dependency>
-        <!-- End: Open Weather Map Dependencies-->
+
+        <dependency>
+            <groupId>com.google.maps</groupId>
+            <artifactId>google-maps-services</artifactId>
+            <version>0.2.7</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-nop</artifactId>
+            <version>1.7.25</version>
+        </dependency>
+        <!-- End: Open Weather Map Dependency -->
 
     </dependencies>
 
