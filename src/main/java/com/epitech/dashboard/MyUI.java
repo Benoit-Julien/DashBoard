@@ -1,6 +1,7 @@
 package com.epitech.dashboard;
 
 import com.epitech.dashboard.View.LoginView;
+import com.vaadin.annotations.Push;
 import com.vaadin.annotations.Theme;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewDisplay;
@@ -10,6 +11,7 @@ import com.vaadin.spring.annotation.SpringViewDisplay;
 import com.vaadin.ui.*;
 
 @Theme("valo")
+@Push
 @SpringUI
 @SpringViewDisplay
 public class MyUI extends UI implements ViewDisplay {

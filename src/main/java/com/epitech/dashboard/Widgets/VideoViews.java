@@ -34,14 +34,19 @@ public class VideoViews extends AWidget {
 
     @Override
     public void refresh() {
-        Video  video = requests.VideoFromUrl(url);
-        String title = video.getSnippet().getTitle();
-        if (title.length() > 20)
-            title = title.substring(0, 19).concat("...");
-        layout.getThumbnail().setSource(new ExternalResource(video.getSnippet().getThumbnails().getDefault().getUrl()));
-        layout.getTitle().setCaption(title);
-        layout.getTitle().setResource(new ExternalResource(requests.buildVideoLink(video.getId())));
-        layout.getDate().setValue("Nb of views: ".concat(video.getStatistics().getViewCount().toString()));
+        try{
+            Video  video = requests.VideoFromUrl(url);
+            String title = video.getSnippet().getTitle();
+            if (title.length() > 20)
+                title = title.substring(0, 19).concat("...");
+            layout.getThumbnail().setSource(new ExternalResource(video.getSnippet().getThumbnails().getDefault().getUrl()));
+            layout.getTitle().setCaption(title);
+            layout.getTitle().setResource(new ExternalResource(requests.buildVideoLink(video.getId())));
+            layout.getDate().setValue("Nb of views: ".concat(video.getStatistics().getViewCount().toString()));
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 
     @Override
