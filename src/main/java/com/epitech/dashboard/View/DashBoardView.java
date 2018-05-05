@@ -112,18 +112,24 @@ public class DashBoardView extends VerticalLayout implements View {
         TopTrendingWidget two = new TopTrendingWidget();
         RSSFeedWidget rss = new RSSFeedWidget();
         WeatherAndTimeWidget wat = new WeatherAndTimeWidget();
+        GoogleMapWidget googlemap = new GoogleMapWidget();
+        Subscribers nos = new Subscribers();
         VideoViews videoViews = new VideoViews();
 
         models.getItems().add(simple);
         models.getItems().add(two);
         models.getItems().add(rss);
         models.getItems().add(wat);
+        models.getItems().add(googlemap);
+        models.getItems().add(nos);
         models.getItems().add(videoViews);
 
         simple.addSubmitListener(e -> submitListener(e, simple.clone()));
         two.addSubmitListener(e -> submitListener(e, two.clone()));
         rss.addSubmitListener(e -> submitListener(e, rss.clone()));
         wat.addSubmitListener(e -> submitListener(e, wat.clone()));
+        googlemap.addSubmitListener(e -> submitListener(e, googlemap.clone()));
+        nos.addSubmitListener(e -> submitListener(e, nos.clone()));
         videoViews.addSubmitListener(e -> submitListener(e, videoViews.clone()));
         //endregion
 
