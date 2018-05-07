@@ -6,7 +6,8 @@ public class WeatherTimeInfo {
     private OWM.Country country;
     private String cityName;
 
-    public WeatherTimeInfo() {}
+    public WeatherTimeInfo() {
+    }
 
     public WeatherTimeInfo(OWM.Country country, String cityName) {
         this.country = country;

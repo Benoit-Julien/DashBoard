@@ -15,8 +15,6 @@ import com.vaadin.ui.TextField;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
 
 public class GoogleMapWidget extends AWidget {
@@ -32,22 +30,9 @@ public class GoogleMapWidget extends AWidget {
 
     private GoogleMapWidgetLayout widget = new GoogleMapWidgetLayout();
 
-    public GoogleMapWidget()
-    {
-        super("Google Map");
+    public GoogleMapWidget() {
         formContent.addComponent(originField);
         formContent.addComponent(destinationField);
-    }
-    public GoogleMapWidget(AWidget source)
-    {
-        super(source);
-        if (source instanceof GoogleMapWidget) {
-            widget = ((GoogleMapWidget) source).widget;
-            context = ((GoogleMapWidget) source).context;
-            infos = ((GoogleMapWidget) source).infos;
-        }
-        else
-            throw new IllegalArgumentException(CLONE_ERR);
     }
 
     @Override
@@ -68,8 +53,7 @@ public class GoogleMapWidget extends AWidget {
         String url = "https://maps.googleapis.com/maps/api/staticmap?size=600x300";
         url += "&key=" + GOOGLE_APPID;
         url += "&path=color:0x0000ff";//|weight:5
-        for (DirectionsStep step : directionsResult.routes[0].legs[0].steps)
-        {
+        for (DirectionsStep step : directionsResult.routes[0].legs[0].steps) {
             url += "|" + step.endLocation.lat + "," + step.endLocation.lng;
         }
         url += "|" + directionsResult.routes[0].legs[0].endLocation.lat + "," + directionsResult.routes[0].legs[0].endLocation.lng;
@@ -89,9 +73,6 @@ public class GoogleMapWidget extends AWidget {
     }
 
     @Override
-    public AWidget clone() { return new GoogleMapWidget(this); }
-
-    @Override
     public void loadFromData(Widget source) {
         ObjectMapper mapper = new ObjectMapper();
         infos = mapper.convertValue(source.getInstance(), GoogleMapInfos.class);
@@ -108,8 +89,7 @@ public class GoogleMapWidget extends AWidget {
 
     @Override
     public boolean submitted() {
-        if (infos.getOrigin() == null || infos.getDestination() == null)
-        {
+        if (infos.getOrigin() == null || infos.getDestination() == null) {
             if (originField.isEmpty() || destinationField.isEmpty())
                 return false;
             infos.setOrigin(originField.getValue());

@@ -26,17 +26,15 @@ public class SignUpView extends VerticalLayout implements View {
     @Autowired
     private UserRepository userRepository;
 
-    private void ShowError(AbstractComponent component, ErrorMessage message)
-    {
+    private void ShowError(AbstractComponent component, ErrorMessage message) {
         component.setComponentError(message);
     }
-    private void HideError(AbstractComponent component)
-    {
+
+    private void HideError(AbstractComponent component) {
         component.setComponentError(null);
     }
 
-    private void SignUp(User user)
-    {
+    private void SignUp(User user) {
         if (!userRepository.findByPseudo(user.getPseudo()).isEmpty()) {
             Notification.show("Ce compte existe déjà");
             return;
@@ -79,11 +77,26 @@ public class SignUpView extends VerticalLayout implements View {
         });
         login.addClickListener(e -> getUI().getNavigator().navigateTo(LoginView.VIEW_NAME));
 
-        firstName.addValueChangeListener(e -> {if (firstName.isEmpty()) this.ShowError(firstName, firtNameError); else this.HideError(firstName);});
-        lastName.addValueChangeListener(e -> {if (lastName.isEmpty()) this.ShowError(lastName, lastNameError); else this.HideError(lastName);});
-        pseudo.addValueChangeListener(e -> {if (pseudo.isEmpty()) this.ShowError(pseudo, pseudoError); else this.HideError(pseudo);});
-        password.addValueChangeListener(e -> {if (password.isEmpty()) this.ShowError(password, passwordError); else this.HideError(password);});
-        passwordConf.addValueChangeListener(e-> {if (!passwordConf.getValue().equals(password.getValue())) this.ShowError(passwordConf, passwordConfError); else this.HideError(passwordConf);});
+        firstName.addValueChangeListener(e -> {
+            if (firstName.isEmpty()) this.ShowError(firstName, firtNameError);
+            else this.HideError(firstName);
+        });
+        lastName.addValueChangeListener(e -> {
+            if (lastName.isEmpty()) this.ShowError(lastName, lastNameError);
+            else this.HideError(lastName);
+        });
+        pseudo.addValueChangeListener(e -> {
+            if (pseudo.isEmpty()) this.ShowError(pseudo, pseudoError);
+            else this.HideError(pseudo);
+        });
+        password.addValueChangeListener(e -> {
+            if (password.isEmpty()) this.ShowError(password, passwordError);
+            else this.HideError(password);
+        });
+        passwordConf.addValueChangeListener(e -> {
+            if (!passwordConf.getValue().equals(password.getValue())) this.ShowError(passwordConf, passwordConfError);
+            else this.HideError(passwordConf);
+        });
 
         FormLayout formLayout = new FormLayout(label, firstName, lastName, pseudo, password, passwordConf, signup, login);
         formLayout.setWidth(null);

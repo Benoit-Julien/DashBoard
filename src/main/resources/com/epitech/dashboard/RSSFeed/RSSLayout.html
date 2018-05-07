@@ -2,18 +2,18 @@
 <html>
  <head>
   <meta charset="UTF-8">
-  <meta name="design-properties" content="{&quot;RULERS_VISIBLE&quot;:true,&quot;GUIDELINES_VISIBLE&quot;:false,&quot;SNAP_TO_OBJECTS&quot;:true,&quot;SNAP_TO_GRID&quot;:true,&quot;SNAPPING_DISTANCE&quot;:10,&quot;GENERATE_GETTERS&quot;:false,&quot;JAVA_SOURCES_ROOT&quot;:&quot;src/main/java&quot;,&quot;THEME&quot;:&quot;valo&quot;}">
-  <meta name="vaadin-version" content="8.0.5">
+  <meta name="design-properties" content="{&quot;RULERS_VISIBLE&quot;:true,&quot;GUIDELINES_VISIBLE&quot;:false,&quot;SNAP_TO_OBJECTS&quot;:true,&quot;SNAP_TO_GRID&quot;:true,&quot;SNAPPING_DISTANCE&quot;:10,&quot;GENERATE_GETTERS&quot;:false,&quot;JAVA_SOURCES_ROOT&quot;:&quot;src/main/java&quot;,&quot;THEME&quot;:&quot;DashBoard&quot;}">
+  <meta name="vaadin-version" content="8.1.5">
  </head>
  <body>
-  <vaadin-absolute-layout style-name="large" responsive width="300px" height="400px">
-   <vaadin-vertical-layout responsive size-full _id="verticalLayout">
-    <vaadin-link caption="Link" responsive width-full _id="title"></vaadin-link>
-    <vaadin-image responsive height-full _id="image"></vaadin-image>
-    <vaadin-label responsive id="desc" width-full plain-text _id="desc">
+  <vaadin-absolute-layout responsive id="Widget" width="400px" height="400px">
+   <vaadin-vertical-layout responsive id="verticalLayoutRSS" size-full _id="verticalLayout">
+    <vaadin-link caption="Link" width-full _id="title"></vaadin-link>
+    <vaadin-image height-full _id="image"></vaadin-image>
+    <vaadin-label id="desc" width-full height="150%" plain-text _id="desc">
       Desc 
     </vaadin-label>
-    <vaadin-label responsive width-full plain-text _id="date">
+    <vaadin-label width-full plain-text _id="date" :bottom>
       Date 
     </vaadin-label>
    </vaadin-vertical-layout>

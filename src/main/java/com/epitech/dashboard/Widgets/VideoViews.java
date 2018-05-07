@@ -11,7 +11,7 @@ public class VideoViews extends AWidget {
 
     VideoLayout layout = new VideoLayout();
 
-    TextField  urlForm = new TextField();
+    TextField urlForm = new TextField();
 
     boolean fromDb = false;
 
@@ -19,23 +19,14 @@ public class VideoViews extends AWidget {
 
     String url = "";
 
-    public VideoViews(){
-        super("Yt views counter");
+    public VideoViews() {
         formContent.addComponent(urlForm);
-    }
-
-    private VideoViews(AWidget source) {
-        super(source);
-        if (source instanceof VideoViews) {
-            urlForm = ((VideoViews) source).urlForm;
-        } else
-            throw new IllegalArgumentException(CLONE_ERR);
     }
 
     @Override
     public void refresh() {
-        try{
-            Video  video = requests.VideoFromUrl(url);
+        try {
+            Video video = requests.VideoFromUrl(url);
             String title = video.getSnippet().getTitle();
             if (title.length() > 20)
                 title = title.substring(0, 19).concat("...");
@@ -43,15 +34,9 @@ public class VideoViews extends AWidget {
             layout.getTitle().setCaption(title);
             layout.getTitle().setResource(new ExternalResource(requests.buildVideoLink(video.getId())));
             layout.getDate().setValue("Nb of views: ".concat(video.getStatistics().getViewCount().toString()));
-        }catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    @Override
-    public AWidget clone() {
-        return new VideoViews(this);
     }
 
     @Override

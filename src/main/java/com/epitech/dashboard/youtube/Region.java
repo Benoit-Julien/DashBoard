@@ -1,18 +1,17 @@
 package com.epitech.dashboard.youtube;
 
-public class Region{
+public class Region {
 
     private String code;
 
     private String name;
 
-    public Region(String code, String name)
-    {
+    public Region(String code, String name) {
         this.code = code;
         this.name = name;
     }
 
-    public Region(){
+    public Region() {
 
     }
 

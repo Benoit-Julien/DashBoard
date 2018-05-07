@@ -26,18 +26,7 @@ public class LastVideoWidget extends AWidget {
     private Channel channel = null;
 
     public LastVideoWidget() {
-        super("Last channel's video");
         formContent.addComponent(idField);
-    }
-
-    private LastVideoWidget(AWidget source) {
-        super(source);
-        if (source instanceof LastVideoWidget) {
-            requests = ((LastVideoWidget) source).requests;
-            idField = ((LastVideoWidget) source).idField;
-            widget = new VideoLayout();
-        } else
-            throw new IllegalArgumentException(CLONE_ERR);
     }
 
     @Override
@@ -47,19 +36,13 @@ public class LastVideoWidget extends AWidget {
             String title = video.getSnippet().getTitle();
             if (title.length() > 20)
                 title = title.substring(0, 19).concat("...");
-            ((VideoLayout)widget).getThumbnail().setSource(new ExternalResource(video.getSnippet().getThumbnails().getDefault().getUrl()));
-            ((VideoLayout)widget).getTitle().setCaption(title);
-            ((VideoLayout)widget).getTitle().setResource(new ExternalResource(requests.buildVideoLink(video.getContentDetails().getVideoId())));
-            ((VideoLayout)widget).getDate().setValue("Last channel's video: ".concat(channel.getSnippet().getTitle()));
-        }catch (NullPointerException e)
-        {
+            ((VideoLayout) widget).getThumbnail().setSource(new ExternalResource(video.getSnippet().getThumbnails().getDefault().getUrl()));
+            ((VideoLayout) widget).getTitle().setCaption(title);
+            ((VideoLayout) widget).getTitle().setResource(new ExternalResource(requests.buildVideoLink(video.getContentDetails().getVideoId())));
+            ((VideoLayout) widget).getDate().setValue("Last channel's video: ".concat(channel.getSnippet().getTitle()));
+        } catch (NullPointerException e) {
             e.printStackTrace();
         }
-    }
-
-    @Override
-    public AWidget clone() {
-        return new LastVideoWidget(this);
     }
 
     @Override
@@ -85,10 +68,10 @@ public class LastVideoWidget extends AWidget {
 
     /**
      * Sets the var channel based on the url
+     *
      * @param url Url of the channel
      */
-    private void setChannel(String url)
-    {
+    private void setChannel(String url) {
         ChannelListResponse response = requests.findChannel(url);
         if (response != null && !response.getItems().isEmpty())
             for (Channel item : response.getItems()) {

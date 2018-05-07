@@ -11,7 +11,6 @@ import com.google.api.services.youtube.model.*;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.text.ParseException;
@@ -171,6 +170,7 @@ public class YoutubeRequests {
 
     /**
      * Splits query params
+     *
      * @param url url to get the query from
      * @return The map of the query params
      * @throws UnsupportedEncodingException
@@ -191,11 +191,10 @@ public class YoutubeRequests {
     }
 
     /**
-     *
      * @param url Url containig the video id
      * @return video
      */
-    public Video VideoFromUrl(String url){
+    public Video VideoFromUrl(String url) {
         try {
             String id = (splitQuery(new URL(url))).get("v").get(0);
             HashMap<String, String> parameters = new HashMap<>();
@@ -222,7 +221,7 @@ public class YoutubeRequests {
      * @param region Region to get the video from
      * @return Video Top on trending
      */
-    public Video getTopTrendingVideo(Region region){
+    public Video getTopTrendingVideo(Region region) {
         try {
             HashMap<String, String> parameters = new HashMap<>();
             parameters.put("part", "snippet");
@@ -241,14 +240,13 @@ public class YoutubeRequests {
             VideoListResponse response = videosListMostPopularRequest.execute();
             if (!response.isEmpty())
                 return response.getItems().get(0);
-        }catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    public String buildVideoLink(String id)
-    {
+    public String buildVideoLink(String id) {
 
         return "https://www.youtube.com/watch?v=".concat(id);
     }
@@ -266,7 +264,7 @@ public class YoutubeRequests {
 
             I18nRegionListResponse response = i18nRegionsListRequest.execute();
             List<Region> res = new ArrayList<>();
-            for (I18nRegion region: response.getItems()) {
+            for (I18nRegion region : response.getItems()) {
                 res.add(new Region(region.getId(), region.getSnippet().getName()));
             }
             return res;
@@ -277,7 +275,7 @@ public class YoutubeRequests {
     }
 
     public int getNumberSubscribers(String urlChannel) {
-        ChannelListResponse response =  findChannel(urlChannel);
+        ChannelListResponse response = findChannel(urlChannel);
         return response.getItems().get(0).getStatistics().getSubscriberCount().intValue();
     }
 }

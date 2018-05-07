@@ -6,37 +6,21 @@ import com.rometools.rome.feed.synd.SyndEntry;
 import com.rometools.rome.feed.synd.SyndFeed;
 import com.rometools.rome.io.SyndFeedInput;
 import com.rometools.rome.io.XmlReader;
-
 import com.vaadin.server.ExternalResource;
-import com.vaadin.ui.*;
+import com.vaadin.ui.TextField;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 
 public class RSSFeedWidget extends AWidget {
-    private TextField urlField;
+    private TextField urlField = new TextField("Rss url : ");
 
-    private RSSWidgetLayout widget;
+    private RSSWidgetLayout widget = new RSSWidgetLayout();
 
     private URL currentRssFeed;
 
     public RSSFeedWidget() {
-        super("RSS Feed");
-
-        urlField = new TextField("Rss url : ");
-
         formContent.addComponent(urlField);
-        widget = new RSSWidgetLayout();
-    }
-
-    private RSSFeedWidget(AWidget source) {
-        super(source);
-        if (source instanceof RSSFeedWidget) {
-            urlField = ((RSSFeedWidget) source).urlField;
-            currentRssFeed = ((RSSFeedWidget) source).currentRssFeed;
-            widget = new RSSWidgetLayout();
-        } else
-            throw new IllegalArgumentException(CLONE_ERR);
     }
 
     @Override
@@ -76,14 +60,9 @@ public class RSSFeedWidget extends AWidget {
     }
 
     @Override
-    public AWidget clone() {
-        return new RSSFeedWidget(this);
-    }
-
-    @Override
     public void loadFromData(Widget source) {
         try {
-            currentRssFeed = new URL((String)source.getInstance());
+            currentRssFeed = new URL((String) source.getInstance());
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
