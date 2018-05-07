@@ -1,20 +1,20 @@
 package com.epitech.dashboard;
 
+import org.apache.commons.codec.binary.Base64;
+
+import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
-import javax.crypto.Cipher;
-import javax.crypto.spec.SecretKeySpec;
-import org.apache.commons.codec.binary.Base64;
 
 /**
- Aes encryption
+ * Aes encryption
  */
-public class AES
-{
-    private static SecretKeySpec secretKey ;
-    private static byte[] key ;
+public class AES {
+    private static SecretKeySpec secretKey;
+    private static byte[] key;
 
     private static String decryptedString;
     private static String encryptedString;
@@ -39,19 +39,21 @@ public class AES
     public static String getDecryptedString() {
         return decryptedString;
     }
+
     public static void setDecryptedString(String decryptedString) {
         AES.decryptedString = decryptedString;
     }
+
     public static String getEncryptedString() {
         return encryptedString;
     }
+
     public static void setEncryptedString(String encryptedString) {
         AES.encryptedString = encryptedString;
     }
-    public static String encrypt(String strToEncrypt)
-    {
-        try
-        {
+
+    public static String encrypt(String strToEncrypt) {
+        try {
             Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
 
             cipher.init(Cipher.ENCRYPT_MODE, secretKey);
@@ -59,28 +61,23 @@ public class AES
 
             setEncryptedString(Base64.encodeBase64String(cipher.doFinal(strToEncrypt.getBytes("UTF-8"))));
 
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
 
-            System.out.println("Error while encrypting: "+e.toString());
+            System.out.println("Error while encrypting: " + e.toString());
         }
         return null;
     }
-    public static String decrypt(String strToDecrypt)
-    {
-        try
-        {
+
+    public static String decrypt(String strToDecrypt) {
+        try {
             Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5PADDING");
 
             cipher.init(Cipher.DECRYPT_MODE, secretKey);
             setDecryptedString(new String(cipher.doFinal(Base64.decodeBase64(strToDecrypt))));
 
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
 
-            System.out.println("Error while decrypting: "+e.toString());
+            System.out.println("Error while decrypting: " + e.toString());
         }
         return null;
     }

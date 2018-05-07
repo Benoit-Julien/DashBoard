@@ -2,23 +2,13 @@ package com.epitech.dashboard.Widgets;
 
 import com.epitech.dashboard.Widget;
 import com.vaadin.ui.*;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Field;
-
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 
 abstract public class AWidget {
 
     /**
-     * Name to be displayed in the combo box
-     */
-    private String name;
-
-    /**
      * Popup view to contain the form which will instantiate a widget
      */
-    protected PopupView formWindow = null;
+    private PopupView formWindow;
 
     /**
      * Error to be thrown when cloning unmatched widgets
@@ -33,51 +23,44 @@ abstract public class AWidget {
     /**
      * Layout to contain the form to instantiate a widget
      */
-    protected FormLayout formContent = new FormLayout();
+    protected FormLayout formContent;
 
     /**
      * Submit button
      */
-    private Button submitButton = new Button("Submit");
+    private Button submitButton;
 
     /**
      * Constructor mainly to use in case of instantiation of a model
-     * @param name Unique name of the model
      */
-    protected AWidget(String name){
-        this.name = name;
+    protected AWidget() {
+        formContent = new FormLayout();
+
+        submitButton = new Button("Submit");
         submitButton.addClickListener(e -> this.submitted());
+
         VerticalLayout layout = new VerticalLayout();
         layout.addComponent(formContent);
-        formWindow = new PopupView(null, layout);
         layout.setComponentAlignment(formContent, Alignment.MIDDLE_CENTER);
+
+        formWindow = new PopupView(null, layout);
     }
 
     /**
      * Adds a listener to the submit button
+     *
      * @param listener Listener to be attached
      */
-    public void addSubmitListener(Button.ClickListener listener){
+    public void addSubmitListener(Button.ClickListener listener) {
         submitButton.addClickListener(listener);
     }
 
     /**
-     * Copy constructor, you have to override this & call him
-     * do not forget to copy your form fields if you want to access them
-     * more easy
-     * @param widget Widget to copy
-     */
-    public AWidget(AWidget widget){
-        name = widget.name;
-        mainDisplay = new AbsoluteLayout();
-        formContent = widget.formContent;
-    }
-
-    /**
      * Getter for the form window
+     *
      * @return Window to be displayed
      */
-    public PopupView getFormWindow(){
+    public PopupView getFormWindow() {
         formContent.addComponent(submitButton);
         formContent.setComponentAlignment(submitButton, Alignment.BOTTOM_LEFT);
         return formWindow;
@@ -90,13 +73,8 @@ abstract public class AWidget {
     public abstract void refresh();
 
     /**
-     * Clone the model into a viable widget
-     * @return A cloned widget
-     */
-    public abstract AWidget clone();
-
-    /**
      * Initializes the widget with all the necessary data
+     *
      * @param source Data to instantiate from
      */
     public abstract void loadFromData(Widget source);
@@ -104,6 +82,7 @@ abstract public class AWidget {
     /**
      * Instantiate a widget object with the necessary
      * data to re-instantiate it later
+     *
      * @return Widget to be stored
      */
     public abstract Widget SaveWidget();
@@ -113,14 +92,7 @@ abstract public class AWidget {
      */
     public abstract boolean submitted();
 
-    public Component getComponent(){
+    public Component getComponent() {
         return mainDisplay;
-    }
-
-    /**
-     * @return Name of the widget
-     */
-    public String getName() {
-        return name;
     }
 }

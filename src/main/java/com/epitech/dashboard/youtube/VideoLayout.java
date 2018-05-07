@@ -5,15 +5,15 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.Link;
 
 public class VideoLayout extends LastVideoWidgetLayout {
-    public Image getThumbnail(){
+    public Image getThumbnail() {
         return thumbnail;
     }
 
-    public Link getTitle(){
+    public Link getTitle() {
         return title;
     }
 
-    public Label getDate(){
+    public Label getDate() {
         return date;
     }
 }

@@ -3,7 +3,8 @@ package com.epitech.dashboard;
 import org.springframework.data.annotation.Id;
 
 public class User {
-    @Id private String id;
+    @Id
+    private String id;
 
     private String firstName;
     private String lastName;

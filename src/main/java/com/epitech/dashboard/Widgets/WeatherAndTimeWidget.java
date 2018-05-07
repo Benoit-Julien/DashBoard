@@ -8,10 +8,10 @@ import com.google.maps.GeoApiContext;
 import com.google.maps.TimeZoneApi;
 import com.google.maps.errors.ApiException;
 import com.google.maps.model.LatLng;
+import com.vaadin.data.provider.ListDataProvider;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.TextField;
-import com.vaadin.data.provider.ListDataProvider;
 import net.aksingh.owmjapis.api.APIException;
 import net.aksingh.owmjapis.core.OWM;
 import net.aksingh.owmjapis.model.CurrentWeather;
@@ -37,30 +37,13 @@ public class WeatherAndTimeWidget extends AWidget {
 
     private WeatherTimeInfo infos = new WeatherTimeInfo();
 
-    public WeatherAndTimeWidget()
-    {
-        super("Weather and Time");
-
+    public WeatherAndTimeWidget() {
         owm.setUnit(OWM.Unit.METRIC);
 
         countrySelect.setDataProvider(new ListDataProvider<>(Arrays.asList(OWM.Country.values())));
+
         formContent.addComponent(countrySelect);
         formContent.addComponent(cityNameField);
-        formContent.setHeight("400px");
-    }
-
-    public WeatherAndTimeWidget(AWidget source)
-    {
-        super(source);
-        if (source instanceof WeatherAndTimeWidget) {
-            owm = ((WeatherAndTimeWidget) source).owm;
-            countrySelect = ((WeatherAndTimeWidget) source).countrySelect;
-            cityNameField = ((WeatherAndTimeWidget) source).cityNameField;
-            widget = ((WeatherAndTimeWidget) source).widget;
-            infos = ((WeatherAndTimeWidget) source).infos;
-        }
-        else
-            throw new IllegalArgumentException(CLONE_ERR);
     }
 
     @Override
@@ -77,7 +60,7 @@ public class WeatherAndTimeWidget extends AWidget {
         widget.getCity().setValue(cwd.getCityName());
         widget.getImage().setSource(new ExternalResource(cwd.getWeatherList().get(0).getIconLink()));
         widget.getTemperature().setValue(cwd.getMainData().getTemp() + " °C");
-        widget.getWind().setValue((int)(cwd.getWindData().getSpeed() * 3.6) + " km/h");
+        widget.getWind().setValue((int) (cwd.getWindData().getSpeed() * 3.6) + " km/h");
 
         TimeZone timeZone = null;
         try {
@@ -93,11 +76,6 @@ public class WeatherAndTimeWidget extends AWidget {
         }
         Calendar time = Calendar.getInstance(timeZone);
         widget.getClock().setValue(time.get(Calendar.HOUR_OF_DAY) + "h" + time.get(Calendar.MINUTE));
-    }
-
-    @Override
-    public AWidget clone() {
-        return new WeatherAndTimeWidget(this);
     }
 
     @Override
