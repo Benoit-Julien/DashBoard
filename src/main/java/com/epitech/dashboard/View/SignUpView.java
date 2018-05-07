@@ -1,5 +1,6 @@
 package com.epitech.dashboard.View;
 
+import com.epitech.dashboard.AES;
 import com.epitech.dashboard.User;
 import com.epitech.dashboard.UserRepository;
 import com.vaadin.navigator.View;
@@ -69,7 +70,10 @@ public class SignUpView extends VerticalLayout implements View {
             else if (!password.getValue().equals(passwordConf.getValue()))
                 this.ShowError(passwordConf, passwordConfError);
             else {
-                User user = new User(firstName.getValue(), lastName.getValue(), pseudo.getValue(), password.getValue());
+                AES.encrypt(password.getValue());
+                String encrypted = AES.getEncryptedString();
+
+                User user = new User(firstName.getValue(), lastName.getValue(), pseudo.getValue(), encrypted);
                 this.SignUp(user);
             }
         });

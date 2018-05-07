@@ -1,5 +1,6 @@
 package com.epitech.dashboard.View;
 
+import com.epitech.dashboard.AES;
 import com.epitech.dashboard.User;
 import com.epitech.dashboard.UserRepository;
 import com.vaadin.navigator.View;
@@ -35,9 +36,12 @@ public class LoginView extends VerticalLayout implements View {
 
     private void Login(String username, String password)
     {
+        AES.encrypt(password);
+        String encrypted = AES.getEncryptedString();
+
         List<User> users = userRepository.findByPseudo(username);
 
-        if (users.isEmpty() || !users.get(0).getPassword().equals(password)) {
+        if (users.isEmpty() || !users.get(0).getPassword().equals(encrypted)) {
             Notification.show("Pseudo ou mots de passe incorrect");
             return;
         }
