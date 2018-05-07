@@ -77,7 +77,7 @@ public class WeatherAndTimeWidget extends AWidget {
         widget.getCity().setValue(cwd.getCityName());
         widget.getImage().setSource(new ExternalResource(cwd.getWeatherList().get(0).getIconLink()));
         widget.getTemperature().setValue(cwd.getMainData().getTemp() + " °C");
-        widget.getWind().setValue(cwd.getWindData().getSpeed() * 3.6 + " km/h");
+        widget.getWind().setValue((int)(cwd.getWindData().getSpeed() * 3.6) + " km/h");
 
         TimeZone timeZone = null;
         try {
