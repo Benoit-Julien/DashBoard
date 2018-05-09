@@ -19,7 +19,7 @@ public class Subscribers extends AWidget {
     }
 
     @Override
-    public void refresh() {
+    public boolean refresh() {
         Channel channel = request.findChannel(urlChannel).getItems().get(0);
         try {
             ((VideoLayout) widget).getThumbnail().setSource(new ExternalResource(channel.getSnippet().getThumbnails().getMedium().getUrl()));
@@ -27,8 +27,9 @@ public class Subscribers extends AWidget {
             ((VideoLayout) widget).getDate().setValue(channel.getStatistics().getSubscriberCount().toString());
         } catch (NullPointerException e) {
             e.printStackTrace();
+            return false;
         }
-
+        return true;
     }
 
     @Override
@@ -50,8 +51,7 @@ public class Subscribers extends AWidget {
     public boolean submitted() {
         if (idField != null && !idField.getValue().isEmpty())
             urlChannel = idField.getValue();
-        refresh();
         mainDisplay = widget;
-        return true;
+        return refresh();
     }
 }

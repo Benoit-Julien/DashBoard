@@ -6,7 +6,6 @@ import com.epitech.dashboard.Widget;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.maps.GeoApiContext;
 import com.google.maps.TimeZoneApi;
-import com.google.maps.errors.ApiException;
 import com.google.maps.model.LatLng;
 import com.vaadin.data.provider.ListDataProvider;
 import com.vaadin.server.ExternalResource;
@@ -16,7 +15,6 @@ import net.aksingh.owmjapis.api.APIException;
 import net.aksingh.owmjapis.core.OWM;
 import net.aksingh.owmjapis.model.CurrentWeather;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.TimeZone;
@@ -30,8 +28,8 @@ public class WeatherAndTimeWidget extends AWidget {
             .apiKey(GOOGLE_APPID)
             .build();
 
-    private ComboBox<OWM.Country> countrySelect = new ComboBox<>("Select a country");
-    private TextField cityNameField = new TextField("Enter city name : ");
+    private ComboBox<OWM.Country> countrySelect = new ComboBox<>("Sélectionner le pays : ");
+    private TextField cityNameField = new TextField("Entrer le nom de la ville : ");
 
     private WeatherTimeWidgetLayout widget = new WeatherTimeWidgetLayout();
 
@@ -47,16 +45,15 @@ public class WeatherAndTimeWidget extends AWidget {
     }
 
     @Override
-    public void refresh() {
+    public boolean refresh() {
         CurrentWeather cwd = null;
         try {
             cwd = owm.currentWeatherByCityName(infos.getCityName(), infos.getCountry());
         } catch (APIException e) {
             e.printStackTrace();
-            return;
+            return false;
         }
 
-        // printing the max./min. temperature
         widget.getCity().setValue(cwd.getCityName());
         widget.getImage().setSource(new ExternalResource(cwd.getWeatherList().get(0).getIconLink()));
         widget.getTemperature().setValue(cwd.getMainData().getTemp() + " °C");
@@ -67,15 +64,13 @@ public class WeatherAndTimeWidget extends AWidget {
             timeZone = TimeZoneApi.getTimeZone(context,
                     new LatLng(cwd.getCoordData().component1(),
                             cwd.getCoordData().component2())).await();
-        } catch (ApiException e) {
+        } catch (Exception e) {
             e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+            return false;
         }
         Calendar time = Calendar.getInstance(timeZone);
         widget.getClock().setValue(time.get(Calendar.HOUR_OF_DAY) + "h" + time.get(Calendar.MINUTE));
+        return true;
     }
 
     @Override
@@ -103,7 +98,6 @@ public class WeatherAndTimeWidget extends AWidget {
         }
 
         mainDisplay = widget;
-        refresh();
-        return true;
+        return refresh();
     }
 }

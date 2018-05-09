@@ -23,7 +23,7 @@ public class GoogleMapWidget extends AWidget {
             .apiKey(GOOGLE_APPID)
             .build();
 
-    private TextField originField = new TextField("Origin : ");
+    private TextField originField = new TextField("Origine : ");
     private TextField destinationField = new TextField("Destination : ");
 
     private GoogleMapInfos infos = new GoogleMapInfos();
@@ -36,19 +36,13 @@ public class GoogleMapWidget extends AWidget {
     }
 
     @Override
-    public void refresh() {
+    public boolean refresh() {
         DirectionsResult directionsResult = null;
         try {
             directionsResult = DirectionsApi.getDirections(context, infos.getOrigin(), infos.getDestination()).units(Unit.METRIC).await();
-        } catch (ApiException e) {
+        } catch (Exception e) {
             e.printStackTrace();
-            return;
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-            return;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return;
+            return false;
         }
         String url = "https://maps.googleapis.com/maps/api/staticmap?size=600x300";
         url += "&key=" + GOOGLE_APPID;
@@ -65,11 +59,12 @@ public class GoogleMapWidget extends AWidget {
         } catch (MalformedURLException e) {
             e.printStackTrace();
             System.out.println("ok");
-            return;
+            return false;
         }
         widget.getImage().setSource(new ExternalResource(mapurl));
         widget.getDistance().setValue("Distance : " + directionsResult.routes[0].legs[0].distance.humanReadable);
         widget.getDuration().setValue("Duration : " + directionsResult.routes[0].legs[0].duration.humanReadable);
+        return true;
     }
 
     @Override
@@ -96,7 +91,6 @@ public class GoogleMapWidget extends AWidget {
             infos.setDestination(destinationField.getValue());
         }
         mainDisplay = widget;
-        refresh();
-        return true;
+        return refresh();
     }
 }

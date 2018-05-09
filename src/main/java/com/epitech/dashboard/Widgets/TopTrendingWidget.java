@@ -30,7 +30,7 @@ public class TopTrendingWidget extends AWidget {
     }
 
     @Override
-    public void refresh() {
+    public boolean refresh() {
         Video video = requests.getTopTrendingVideo(country);
         try {
             String title = video.getSnippet().getTitle();
@@ -42,7 +42,9 @@ public class TopTrendingWidget extends AWidget {
             ((VideoLayout) widget).getDate().setValue("Top trending video in: ".concat(country.getName()));
         } catch (NullPointerException e) {
             e.printStackTrace();
+            return false;
         }
+        return true;
     }
 
     @Override
@@ -65,7 +67,6 @@ public class TopTrendingWidget extends AWidget {
         if (country == null)
             country = countrySelect.getValue();
         mainDisplay = widget;
-        refresh();
-        return true;
+        return refresh();
     }
 }
