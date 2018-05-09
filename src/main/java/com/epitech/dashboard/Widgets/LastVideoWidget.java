@@ -30,7 +30,7 @@ public class LastVideoWidget extends AWidget {
     }
 
     @Override
-    public void refresh() {
+    public boolean refresh() {
         PlaylistItem video = requests.getChannelLastVideo(channel);
         try {
             String title = video.getSnippet().getTitle();
@@ -42,7 +42,9 @@ public class LastVideoWidget extends AWidget {
             ((VideoLayout) widget).getDate().setValue("Last channel's video: ".concat(channel.getSnippet().getTitle()));
         } catch (NullPointerException e) {
             e.printStackTrace();
+            return false;
         }
+        return true;
     }
 
     @Override
@@ -83,8 +85,7 @@ public class LastVideoWidget extends AWidget {
     public boolean submitted() {
         if (channel == null)
             setChannel(idField.getValue());
-        refresh();
         mainDisplay = widget;
-        return true;
+        return refresh();
     }
 }

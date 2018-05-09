@@ -25,6 +25,9 @@ public class DashBoardView extends VerticalLayout implements View {
     public static User currentUser;
     private boolean stop = false;
 
+    @Autowired
+    private WidgetRepository widgetRepository;
+
     public class RefreshThread extends Thread {
         @Override
         public void run() {
@@ -39,7 +42,6 @@ public class DashBoardView extends VerticalLayout implements View {
                     getUI().access(uiRunnable);
                     getUI().push();
                 } catch (Exception e) {
-                    System.out.println("ok");
                     e.printStackTrace();
                 }
             }
@@ -69,9 +71,6 @@ public class DashBoardView extends VerticalLayout implements View {
      * Window containing the form for a widget (null or last widget instantiated form)
      */
     private PopupView formWindow = null;
-
-    @Autowired
-    private WidgetRepository widgetRepository;
 
     /**
      * ComoBox Displaying the available
@@ -115,6 +114,7 @@ public class DashBoardView extends VerticalLayout implements View {
                     Constructor<?> constructor = clazz.getConstructor();
                     AWidget instance = (AWidget) constructor.newInstance();
                     instance.loadFromData(data);
+                    instance.setId(data.getId());
                     addWidget(instance);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -147,12 +147,16 @@ public class DashBoardView extends VerticalLayout implements View {
     private void submitListener(Button.ClickEvent event, AWidget widget) {
         try {
             formWindow.setPopupVisible(false);
-            widget.submitted();
-            Widget save = widget.SaveWidget();
-            save.setOwner(currentUser);
-            widgetRepository.save(save);
-            addWidget(widget);
-            select.setValue(null);
+            if (widget.submitted())
+            {
+                Widget save = widget.SaveWidget();
+                save.setOwner(currentUser);
+                widgetRepository.save(save);
+                widget.setId(save.getId());
+                addWidget(widget);
+                select.setValue(null);
+            } else
+                Notification.show("Erreur lors de la création du Widget");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -198,6 +202,11 @@ public class DashBoardView extends VerticalLayout implements View {
     private void addWidget(AWidget widget) {
         if (widget == null)
             return;
+        widget.addDeleteButtonListener(clickEvent -> {
+            widgetRepository.deleteById(widget.getId());
+            widgets.remove(widget);
+            widgetsGrid.removeComponent(widget.getComponent());
+        });
         widgets.add(widget);
         updateGrid();
     }

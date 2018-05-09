@@ -1,9 +1,12 @@
 package com.epitech.dashboard.Widgets;
 
 import com.epitech.dashboard.Widget;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.ui.*;
 
 abstract public class AWidget {
+
+    private String id;
 
     /**
      * Popup view to contain the form which will instantiate a widget
@@ -19,6 +22,11 @@ abstract public class AWidget {
      * Main component, this is the component who must be displayed
      */
     protected AbsoluteLayout mainDisplay = new AbsoluteLayout();
+
+    /**
+     * Delete Button, it would be add to the mainDisplay on getComponent
+     */
+    private Button deleteButton = new Button("", VaadinIcons.TRASH);
 
     /**
      * Layout to contain the form to instantiate a widget
@@ -44,15 +52,26 @@ abstract public class AWidget {
         layout.setComponentAlignment(formContent, Alignment.MIDDLE_CENTER);
 
         formWindow = new PopupView(null, layout);
+
+        deleteButton.setId("DeleteButton");
     }
 
     /**
-     * Adds a listener to the submit button
+     * Add a listener to the submit button
      *
      * @param listener Listener to be attached
      */
     public void addSubmitListener(Button.ClickListener listener) {
         submitButton.addClickListener(listener);
+    }
+
+    /**
+     * Add a listener to the delete button
+     *
+     * @param listener Listener to be attached
+     */
+    public void addDeleteButtonListener(Button.ClickListener listener) {
+        deleteButton.addClickListener(listener);
     }
 
     /**
@@ -70,7 +89,7 @@ abstract public class AWidget {
      * This method must be able to refresh the content of the widget
      * it will be called each minute
      */
-    public abstract void refresh();
+    public abstract boolean refresh();
 
     /**
      * Initializes the widget with all the necessary data
@@ -93,6 +112,25 @@ abstract public class AWidget {
     public abstract boolean submitted();
 
     public Component getComponent() {
+
+        boolean hasDeleteButton = false;
+
+        for (Component c : mainDisplay) {
+            if (c.getId() != null && c.getId().equals("DeleteButton")) {
+                hasDeleteButton = true;
+                break;
+            }
+        }
+        if (!hasDeleteButton)
+            mainDisplay.addComponent(deleteButton);
         return mainDisplay;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

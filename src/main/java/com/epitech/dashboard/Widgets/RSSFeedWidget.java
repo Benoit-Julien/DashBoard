@@ -24,13 +24,13 @@ public class RSSFeedWidget extends AWidget {
     }
 
     @Override
-    public void refresh() {
+    public boolean refresh() {
         try {
             SyndFeedInput input = new SyndFeedInput();
             SyndFeed feed = input.build(new XmlReader(currentRssFeed));
 
             if (feed.getEntries().isEmpty())
-                return;
+                return false;
 
             SyndEntry current = feed.getEntries().get(0);
 
@@ -53,10 +53,11 @@ public class RSSFeedWidget extends AWidget {
                 widget.getDesc().setValue(current.getDescription().getValue());
             else
                 widget.getDesc().setEnabled(false);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            System.out.println("ERROR: " + ex.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
         }
+        return true;
     }
 
     @Override
@@ -82,10 +83,8 @@ public class RSSFeedWidget extends AWidget {
         try {
             if (currentRssFeed == null)
                 currentRssFeed = new URL(urlField.getValue());
-            //currentRssFeed = new URL("http://www.lemonde.fr/rss/une.xml");
             mainDisplay = widget;
-            refresh();
-            return true;
+            return refresh();
         } catch (MalformedURLException e) {
             e.printStackTrace();
             return false;

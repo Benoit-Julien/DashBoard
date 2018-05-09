@@ -24,7 +24,7 @@ public class VideoViews extends AWidget {
     }
 
     @Override
-    public void refresh() {
+    public boolean refresh() {
         try {
             Video video = requests.VideoFromUrl(url);
             String title = video.getSnippet().getTitle();
@@ -36,7 +36,9 @@ public class VideoViews extends AWidget {
             layout.getDate().setValue("Nb of views: ".concat(video.getStatistics().getViewCount().toString()));
         } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
+        return true;
     }
 
     @Override
@@ -59,7 +61,6 @@ public class VideoViews extends AWidget {
         mainDisplay = layout;
         if (!fromDb)
             url = urlForm.getValue();
-        refresh();
-        return true;
+        return refresh();
     }
 }
