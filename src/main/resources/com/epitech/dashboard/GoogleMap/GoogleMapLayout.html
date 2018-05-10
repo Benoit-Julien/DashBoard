@@ -6,15 +6,14 @@
   <meta name="vaadin-version" content="8.1.5">
  </head>
  <body>
-  <vaadin-absolute-layout responsive id="Widget" width="400px" height="400px">
-   <vaadin-vertical-layout responsive id="verticalLayoutRSS" size-full _id="verticalLayout">
-    <vaadin-link caption="Link" width-full _id="title"></vaadin-link>
-    <vaadin-image height-full _id="image"></vaadin-image>
-    <vaadin-label id="desc" width-full height="150%" plain-text _id="desc">
-      Desc 
+  <vaadin-absolute-layout id="Widget" width="500px" height="400px">
+   <vaadin-vertical-layout id="verticalLayoutGoogleMap">
+    <vaadin-image width-full _id="image"></vaadin-image>
+    <vaadin-label plain-text _id="distance">
+      distance 
     </vaadin-label>
-    <vaadin-label width-full plain-text _id="date" :bottom>
-      Date 
+    <vaadin-label plain-text _id="duration">
+      duration 
     </vaadin-label>
    </vaadin-vertical-layout>
   </vaadin-absolute-layout>

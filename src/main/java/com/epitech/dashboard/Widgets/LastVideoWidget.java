@@ -26,37 +26,25 @@ public class LastVideoWidget extends AWidget {
     private Channel channel = null;
 
     public LastVideoWidget() {
-        super("Last channel's video");
         formContent.addComponent(idField);
     }
 
-    private LastVideoWidget(AWidget source) {
-        super(source);
-        if (source instanceof LastVideoWidget) {
-            requests = ((LastVideoWidget) source).requests;
-            idField = ((LastVideoWidget) source).idField;
-            widget = new VideoLayout();
-        } else
-            throw new IllegalArgumentException(CLONE_ERR);
-    }
-
     @Override
-    public void refresh() {
+    public boolean refresh() {
         PlaylistItem video = requests.getChannelLastVideo(channel);
         try {
-            ((VideoLayout)widget).getThumbnail().setSource(new ExternalResource(video.getSnippet().getThumbnails().getDefault().getUrl()));
-            ((VideoLayout)widget).getTitle().setCaption(video.getSnippet().getTitle());
-            ((VideoLayout)widget).getTitle().setResource(new ExternalResource(requests.buildVideoLink(video.getContentDetails().getVideoId())));
-            ((VideoLayout)widget).getDate().setValue(video.getSnippet().getPublishedAt().toString());
-        }catch (NullPointerException e)
-        {
+            String title = video.getSnippet().getTitle();
+            if (title.length() > 20)
+                title = title.substring(0, 19).concat("...");
+            ((VideoLayout) widget).getThumbnail().setSource(new ExternalResource(video.getSnippet().getThumbnails().getDefault().getUrl()));
+            ((VideoLayout) widget).getTitle().setCaption(title);
+            ((VideoLayout) widget).getTitle().setResource(new ExternalResource(requests.buildVideoLink(video.getContentDetails().getVideoId())));
+            ((VideoLayout) widget).getDate().setValue("Last channel's video: ".concat(channel.getSnippet().getTitle()));
+        } catch (NullPointerException e) {
             e.printStackTrace();
+            return false;
         }
-    }
-
-    @Override
-    public AWidget clone() {
-        return new LastVideoWidget(this);
+        return true;
     }
 
     @Override
@@ -82,10 +70,10 @@ public class LastVideoWidget extends AWidget {
 
     /**
      * Sets the var channel based on the url
+     *
      * @param url Url of the channel
      */
-    private void setChannel(String url)
-    {
+    private void setChannel(String url) {
         ChannelListResponse response = requests.findChannel(url);
         if (response != null && !response.getItems().isEmpty())
             for (Channel item : response.getItems()) {
@@ -97,8 +85,7 @@ public class LastVideoWidget extends AWidget {
     public boolean submitted() {
         if (channel == null)
             setChannel(idField.getValue());
-        refresh();
         mainDisplay = widget;
-        return true;
+        return refresh();
     }
 }

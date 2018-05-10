@@ -1,5 +1,6 @@
 package com.epitech.dashboard.View;
 
+import com.epitech.dashboard.AES;
 import com.epitech.dashboard.User;
 import com.epitech.dashboard.UserRepository;
 import com.vaadin.navigator.View;
@@ -24,20 +25,21 @@ public class LoginView extends VerticalLayout implements View {
     @Autowired
     private UserRepository userRepository;
 
-    private void ShowError(AbstractComponent component, ErrorMessage message)
-    {
+    private void ShowError(AbstractComponent component, ErrorMessage message) {
         component.setComponentError(message);
     }
-    private void HideError(AbstractComponent component)
-    {
+
+    private void HideError(AbstractComponent component) {
         component.setComponentError(null);
     }
 
-    private void Login(String username, String password)
-    {
+    private void Login(String username, String password) {
+        AES.encrypt(password);
+        String encrypted = AES.getEncryptedString();
+
         List<User> users = userRepository.findByPseudo(username);
 
-        if (users.isEmpty() || !users.get(0).getPassword().equals(password)) {
+        if (users.isEmpty() || !users.get(0).getPassword().equals(encrypted)) {
             Notification.show("Pseudo ou mots de passe incorrect");
             return;
         }
@@ -51,8 +53,14 @@ public class LoginView extends VerticalLayout implements View {
         TextField pseudo = new TextField("Pseudo : ");
         PasswordField password = new PasswordField("Mots de passe : ");
 
-        pseudo.addValueChangeListener(e -> {if (pseudo.isEmpty()) this.ShowError(pseudo, pseudoError); else this.HideError(pseudo);});
-        password.addValueChangeListener(e -> {if (password.isEmpty()) this.ShowError(password, passwordError); else this.HideError(password);});
+        pseudo.addValueChangeListener(e -> {
+            if (pseudo.isEmpty()) this.ShowError(pseudo, pseudoError);
+            else this.HideError(pseudo);
+        });
+        password.addValueChangeListener(e -> {
+            if (password.isEmpty()) this.ShowError(password, passwordError);
+            else this.HideError(password);
+        });
 
         Button login = new Button("Connexion");
         Button signup = new Button("Créer un compte");

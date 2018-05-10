@@ -10,6 +10,9 @@ import com.google.api.services.youtube.YouTube;
 import com.google.api.services.youtube.model.*;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URL;
+import java.net.URLDecoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -50,7 +53,7 @@ public class YoutubeRequests {
      * Finds a channel from an url of the channel
      *
      * @param url Url to parse the user or the id of the channel
-     * @return
+     * @return the found channel
      */
     public ChannelListResponse findChannel(String url) {
         String[] elems = url.split("/");
@@ -166,11 +169,59 @@ public class YoutubeRequests {
     }
 
     /**
+     * Splits query params
      *
-     * @param region
-     * @return
+     * @param url url to get the query from
+     * @return The map of the query params
+     * @throws UnsupportedEncodingException
      */
-    public Video getTopTrendingVideo(Region region){
+    public static Map<String, List<String>> splitQuery(URL url) throws UnsupportedEncodingException {
+        final Map<String, List<String>> query_pairs = new LinkedHashMap<String, List<String>>();
+        final String[] pairs = url.getQuery().split("&");
+        for (String pair : pairs) {
+            final int idx = pair.indexOf("=");
+            final String key = idx > 0 ? URLDecoder.decode(pair.substring(0, idx), "UTF-8") : pair;
+            if (!query_pairs.containsKey(key)) {
+                query_pairs.put(key, new LinkedList<String>());
+            }
+            final String value = idx > 0 && pair.length() > idx + 1 ? URLDecoder.decode(pair.substring(idx + 1), "UTF-8") : null;
+            query_pairs.get(key).add(value);
+        }
+        return query_pairs;
+    }
+
+    /**
+     * @param url Url containig the video id
+     * @return video
+     */
+    public Video VideoFromUrl(String url) {
+        try {
+            String id = (splitQuery(new URL(url))).get("v").get(0);
+            HashMap<String, String> parameters = new HashMap<>();
+            parameters.put("part", "snippet,contentDetails,statistics");
+            parameters.put("key", API_KEY);
+            parameters.put("id", id);
+
+            YouTube.Videos.List videosListByIdRequest = youtube.videos().list(parameters.get("part").toString());
+            videosListByIdRequest.setKey(parameters.get("key"));
+            if (parameters.containsKey("id") && !parameters.get("id").equals("")) {
+                videosListByIdRequest.setId(parameters.get("id"));
+            }
+
+            return videosListByIdRequest.execute().getItems().get(0);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * Get the video on top trending from a country
+     *
+     * @param region Region to get the video from
+     * @return Video Top on trending
+     */
+    public Video getTopTrendingVideo(Region region) {
         try {
             HashMap<String, String> parameters = new HashMap<>();
             parameters.put("part", "snippet");
@@ -189,14 +240,13 @@ public class YoutubeRequests {
             VideoListResponse response = videosListMostPopularRequest.execute();
             if (!response.isEmpty())
                 return response.getItems().get(0);
-        }catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    public String buildVideoLink(String id)
-    {
+    public String buildVideoLink(String id) {
 
         return "https://www.youtube.com/watch?v=".concat(id);
     }
@@ -214,7 +264,7 @@ public class YoutubeRequests {
 
             I18nRegionListResponse response = i18nRegionsListRequest.execute();
             List<Region> res = new ArrayList<>();
-            for (I18nRegion region: response.getItems()) {
+            for (I18nRegion region : response.getItems()) {
                 res.add(new Region(region.getId(), region.getSnippet().getName()));
             }
             return res;
@@ -222,5 +272,10 @@ public class YoutubeRequests {
             ex.printStackTrace();
         }
         return null;
+    }
+
+    public int getNumberSubscribers(String urlChannel) {
+        ChannelListResponse response = findChannel(urlChannel);
+        return response.getItems().get(0).getStatistics().getSubscriberCount().intValue();
     }
 }

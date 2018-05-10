@@ -1,10 +1,11 @@
 package com.epitech.dashboard.View;
 
-import com.epitech.dashboard.*;
-import com.epitech.dashboard.Widgets.*;
 import com.epitech.dashboard.User;
+import com.epitech.dashboard.Widget;
+import com.epitech.dashboard.WidgetRepository;
+import com.epitech.dashboard.Widgets.AWidget;
+import com.epitech.dashboard.Widgets.WidgetFactory;
 import com.jarektoro.responsivelayout.ResponsiveLayout;
-import com.vaadin.data.provider.ListDataProvider;
 import com.vaadin.event.selection.SingleSelectionEvent;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.navigator.View;
@@ -22,16 +23,44 @@ import java.util.List;
 public class DashBoardView extends VerticalLayout implements View {
     public static final String VIEW_NAME = "dashboard";
     public static User currentUser;
+    private boolean stop = false;
+
+    @Autowired
+    private WidgetRepository widgetRepository;
+
+    public class RefreshThread extends Thread {
+        @Override
+        public void run() {
+            while (true) {
+                try {
+                    stop = sleepToUpdate();
+                    Runnable uiRunnable = () -> {
+                        for (AWidget widget : widgets) {
+                            widget.refresh();
+                        }
+                    };
+                    getUI().access(uiRunnable);
+                    getUI().push();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        private boolean sleepToUpdate() {
+            try {
+                Thread.sleep(30000);
+            } catch (final InterruptedException ignore) {
+                ignore.printStackTrace();
+            }
+            return true;
+        }
+    }
 
     /**
      * List of widgets linked to the widgets grid
      */
     private List<AWidget> widgets = new ArrayList<>();
-
-    /**
-     * List of widgets models
-     */
-    private ListDataProvider<AWidget> models = new ListDataProvider<>(new ArrayList<>());
 
     /**
      * Grid containing the instantiated widgets
@@ -43,56 +72,36 @@ public class DashBoardView extends VerticalLayout implements View {
      */
     private PopupView formWindow = null;
 
-    @Autowired
-    private WidgetRepository widgetRepository;
-
     /**
      * ComoBox Displaying the available
      */
-    private ComboBox<AWidget> select = new ComboBox<>("Select a widget");
+    private ComboBox<String> select = new ComboBox<>("Sélectionner un widget");
 
+    private PopupView selectWidgetPopup;
 
     @PostConstruct
     private void init() {
-        Button button = new Button("Add a widget", VaadinIcons.PLUS);
+        Button button = new Button("Ajouter un widget", VaadinIcons.PLUS);
         VerticalLayout popupContent = new VerticalLayout();
-        PopupView selectWidgets = new PopupView(null, popupContent);
+        selectWidgetPopup = new PopupView(null, popupContent);
 
         //region Init static content
         select.setWidth("100%");
-        select.setDataProvider(models);
+        select.setDataProvider(WidgetFactory.getInstance().models);
         select.setTextInputAllowed(false);
-        select.setItemCaptionGenerator(AWidget::getName);
-        selectWidgets.setWidth("500px");
+        select.setEmptySelectionAllowed(false);
+        select.addSelectionListener(this::selectionListener);
+
         popupContent.addComponent(select);
-        addComponent(selectWidgets);
+        selectWidgetPopup.setHideOnMouseOut(false);
+        addComponent(selectWidgetPopup);
+
         setMargin(true);
         setSpacing(true);
         addComponent(button);
-        setComponentAlignment(selectWidgets, Alignment.TOP_CENTER);
+        setComponentAlignment(selectWidgetPopup, Alignment.TOP_CENTER);
         addComponent(widgetsGrid);
-        select.addSelectionListener(this::selectionListener);
-        button.addClickListener(e -> selectWidgets.setPopupVisible(true));
-        //endregion
-
-        //region Init widget models
-        LastVideoWidget simple = new LastVideoWidget();
-        TopTrendingWidget two = new TopTrendingWidget();
-        RSSFeedWidget rss = new RSSFeedWidget();
-        WeatherAndTimeWidget wat = new WeatherAndTimeWidget();
-        StockQuoteWidget stw = new StockQuoteWidget();
-
-        models.getItems().add(simple);
-        models.getItems().add(two);
-        models.getItems().add(rss);
-        models.getItems().add(wat);
-        models.getItems().add(stw);
-
-        simple.addSubmitListener(e -> submitListener(e, simple.clone()));
-        two.addSubmitListener(e -> submitListener(e, two.clone()));
-        rss.addSubmitListener(e -> submitListener(e, rss.clone()));
-        wat.addSubmitListener(e -> submitListener(e, wat.clone()));
-        stw.addSubmitListener(e -> submitListener(e, simple.clone()));
+        button.addClickListener(e -> selectWidgetPopup.setPopupVisible(true));
         //endregion
 
         //region Init dynamic widgets
@@ -105,6 +114,7 @@ public class DashBoardView extends VerticalLayout implements View {
                     Constructor<?> constructor = clazz.getConstructor();
                     AWidget instance = (AWidget) constructor.newInstance();
                     instance.loadFromData(data);
+                    instance.setId(data.getId());
                     addWidget(instance);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -115,6 +125,11 @@ public class DashBoardView extends VerticalLayout implements View {
         }
         updateGrid();
         //endregion
+
+        //region Update thread
+        new RefreshThread().start();
+        //endregion
+
     }
 
     @Override
@@ -130,13 +145,21 @@ public class DashBoardView extends VerticalLayout implements View {
      * @param widget Widget instantiated
      */
     private void submitListener(Button.ClickEvent event, AWidget widget) {
-        formWindow.setPopupVisible(false);
-        widget.submitted();
-        Widget save = widget.SaveWidget();
-        save.setOwner(currentUser);
-        widgetRepository.save(save);
-        addWidget(widget);
-        select.setValue(null);
+        try {
+            formWindow.setPopupVisible(false);
+            if (widget.submitted())
+            {
+                Widget save = widget.SaveWidget();
+                save.setOwner(currentUser);
+                widgetRepository.save(save);
+                widget.setId(save.getId());
+                addWidget(widget);
+                select.setValue(null);
+            } else
+                Notification.show("Erreur lors de la création du Widget");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -144,15 +167,31 @@ public class DashBoardView extends VerticalLayout implements View {
      *
      * @param event Event to be handled
      */
-    private void selectionListener(SingleSelectionEvent<AWidget> event) {
-        AWidget widget = event.getSelectedItem().orElse(null);
-        if (widget == null)
+    private void selectionListener(SingleSelectionEvent<String> event) {
+        String widgetkey = event.getSelectedItem().orElse(null);
+        if (widgetkey == null)
             return;
-        formWindow = widget.getFormWindow();
-        removeComponent(formWindow);
-        addComponent(formWindow);
-        formWindow.setSizeFull();
-        formWindow.setPopupVisible(true);
+        try {
+            Class<?> clazz = WidgetFactory.getInstance().widgets.get(widgetkey);
+            Constructor<?> constructor = clazz.getConstructor();
+
+            final AWidget widget = (AWidget) constructor.newInstance();
+
+            widget.addSubmitListener(e -> submitListener(e, widget));
+            formWindow = widget.getFormWindow();
+            formWindow.setHideOnMouseOut(false);
+            formWindow.addPopupVisibilityListener(popupVisibilityEvent -> {
+                if (!popupVisibilityEvent.isPopupVisible())
+                    removeComponent(formWindow);
+            });
+            addComponent(formWindow, 0);
+            formWindow.setSizeFull();
+            formWindow.setPopupVisible(true);
+            select.setValue(null);
+            selectWidgetPopup.setPopupVisible(false);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -163,6 +202,11 @@ public class DashBoardView extends VerticalLayout implements View {
     private void addWidget(AWidget widget) {
         if (widget == null)
             return;
+        widget.addDeleteButtonListener(clickEvent -> {
+            widgetRepository.deleteById(widget.getId());
+            widgets.remove(widget);
+            widgetsGrid.removeComponent(widget.getComponent());
+        });
         widgets.add(widget);
         updateGrid();
     }
@@ -171,13 +215,11 @@ public class DashBoardView extends VerticalLayout implements View {
      * Updates the widgets grid
      */
     private void updateGrid() {
-        widgetsGrid.removeAllComponents();
-        int n = 0;
         for (AWidget widget : widgets) {
-            Component comp = widget.getComponent();
-            comp.setId(String.valueOf(n));
-            widgetsGrid.addComponent(comp);
-            n++;
+            if (widgetsGrid.getComponentIndex(widget.getComponent()) == -1)
+                widgetsGrid.addComponent(widget.getComponent());
+            else
+                widgetsGrid.replaceComponent(widget.getComponent(), widget.getComponent());
         }
     }
 }

@@ -38,20 +38,20 @@
         </dependency>
 
         <dependency>
-            <groupId>com.vaadin</groupId>
-            <artifactId>vaadin-spring-boot-starter</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
 
         <dependency>
-            <groupId>com.jarektoro</groupId>
-            <artifactId>responsive-layout</artifactId>
-            <version>2.1.1</version>
+            <groupId>com.vaadin</groupId>
+            <artifactId>vaadin-spring-boot-starter</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.vaadin</groupId>
+            <artifactId>vaadin-push</artifactId>
+            <version>${vaadin.version}</version>
         </dependency>
 
         <dependency>
@@ -61,26 +61,52 @@
         </dependency>
 
         <dependency>
+            <groupId>com.vaadin</groupId>
+            <artifactId>vaadin-client-compiled</artifactId>
+            <version>${vaadin.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.jarektoro</groupId>
+            <artifactId>responsive-layout</artifactId>
+            <version>2.1.1</version>
+        </dependency>
+
+        <dependency>
             <groupId>com.google.apis</groupId>
             <artifactId>google-api-services-youtube</artifactId>
             <version>v3-rev195-1.23.0</version>
         </dependency>
 
-        <!-- Begin: RSS Feed Dependency-->
+        <!-- Begin: Refresher Dependency -->
+        <dependency>
+            <groupId>org.vaadin.addons</groupId>
+            <artifactId>refresher</artifactId>
+            <version>1.2.3.7</version>
+        </dependency>
+        <!-- End: Refresher Dependency -->
+
+        <!-- Begin: RSS Feed Dependency -->
         <dependency>
             <groupId>com.rometools</groupId>
             <artifactId>rome</artifactId>
             <version>1.9.0</version>
         </dependency>
-        <!-- End: RSS Feed Dependency-->
+        <!-- End: RSS Feed Dependency -->
 
-        <!-- Begin: Open Weather Map Dependencies-->
+        <!-- Begin: Open Weather Map Dependency -->
         <dependency>
             <groupId>net.aksingh</groupId>
             <artifactId>owm-japis</artifactId>
             <version>2.5.2.2</version>
         </dependency>
-        <!-- End: Open Weather Map Dependencies-->
+
+        <dependency>
+            <groupId>com.google.maps</groupId>
+            <artifactId>google-maps-services</artifactId>
+            <version>0.2.7</version>
+        </dependency>
+        <!-- End: Open Weather Map Dependency -->
 
     </dependencies>
 
