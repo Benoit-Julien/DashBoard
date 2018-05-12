@@ -2,20 +2,23 @@
 
 # DashBoard
 
-This is a DashBoard project, we implement multiple API :
+This is a DashBoard project, we implement fifteen APIs :
 
 * Weather and Time
-* Top #1 on Youtube
 * RSS Feed
+* Number of fan of an artist
 * Last Imgur picture of a theme
 * Number of person connected on Discord server
 * Last post on subreddit
-* Number of subscribuer on Youtube channel
 * Follow a stock market
-* Number of view on a Youtube video
 * Google Map route
+* Top #1 on Youtube
+* Number of suscriber on Youtube channel
+* Number of view on a Youtube video
 * Last video of a Youtube channel
 * Last commentary of a Youtube video
+* Price of a Steam game
+* Last movie by genre
 
 ## Run
 ### Sources
