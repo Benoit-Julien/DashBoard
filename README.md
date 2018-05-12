@@ -2,7 +2,7 @@
 
 # DashBoard
 
-This is a DashBoard project, we implement fifteen APIs :
+This is a Dashboard project, we implement fifteen APIs :
 
 * Weather and Time
 * RSS Feed
@@ -30,8 +30,8 @@ mvn spring-boot:run
 
 ### Pre-Build
 
-Download here : [DashBoard.jar](https://github.com/Benoit-Julien/DashBoard/releases/)
+Download here : [Dashboard.jar](https://github.com/Benoit-Julien/DashBoard/releases/latest)
 
 ```
-java -jar DashBoard.jar
+java -jar Dashboard.jar
 ```
