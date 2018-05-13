@@ -147,8 +147,7 @@ public class DashBoardView extends VerticalLayout implements View {
     private void submitListener(Button.ClickEvent event, AWidget widget) {
         try {
             formWindow.setPopupVisible(false);
-            if (widget.submitted())
-            {
+            if (widget.submitted()) {
                 Widget save = widget.SaveWidget();
                 save.setOwner(currentUser);
                 widgetRepository.save(save);

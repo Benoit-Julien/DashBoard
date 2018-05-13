@@ -2,7 +2,6 @@ package com.epitech.dashboard.Widgets;
 
 import com.epitech.dashboard.Deezer.DeezerInfos;
 import com.epitech.dashboard.Deezer.DeezerWidgetLayout;
-
 import com.epitech.dashboard.Widget;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.ui.TextField;

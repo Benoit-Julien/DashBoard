@@ -1,7 +1,6 @@
 package com.epitech.dashboard.Widgets;
 
 import com.epitech.dashboard.Widget;
-import com.epitech.dashboard.youtube.LastVideoWidgetLayout;
 import com.epitech.dashboard.youtube.VideoLayout;
 import com.epitech.dashboard.youtube.YoutubeRequests;
 import com.google.api.client.json.jackson2.JacksonFactory;
@@ -21,7 +20,7 @@ public class LastVideoWidget extends AWidget {
 
     private YoutubeRequests requests = new YoutubeRequests();
 
-    private TextField idField = new TextField("Url de la chaine");
+    private TextField idField = new TextField("Url de la chaine : ");
 
     private Channel channel = null;
 

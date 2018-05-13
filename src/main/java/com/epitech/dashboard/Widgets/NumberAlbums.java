@@ -6,7 +6,7 @@ import com.epitech.dashboard.Widget;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.ui.TextField;
 
-public class NumberAlbums extends AWidget{
+public class NumberAlbums extends AWidget {
 
     private TextField artist = new TextField("Artiste : ");
 
@@ -22,7 +22,6 @@ public class NumberAlbums extends AWidget{
     public NumberAlbums() {
         formContent.addComponent(artist);
     }
-
 
 
     @Override
@@ -55,9 +54,9 @@ public class NumberAlbums extends AWidget{
 
     @Override
     public boolean submitted() {
-            if (idArtist == null)
-                idArtist = deezerInfos.searchArtistByName(artist.getValue());
-            mainDisplay = widget;
-            return refresh();
+        if (idArtist == null)
+            idArtist = deezerInfos.searchArtistByName(artist.getValue());
+        mainDisplay = widget;
+        return refresh();
     }
 }

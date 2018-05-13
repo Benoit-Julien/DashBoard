@@ -40,8 +40,7 @@ public class QuoteDataWidgetLayout extends QuoteDataLayout {
         return latestVolume;
     }
 
-    public QuoteDataWidgetLayout()
-    {
+    public QuoteDataWidgetLayout() {
         super();
         verticalLayout.setMargin(false);
     }

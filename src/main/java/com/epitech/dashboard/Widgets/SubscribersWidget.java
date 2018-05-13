@@ -1,20 +1,19 @@
 package com.epitech.dashboard.Widgets;
 
 import com.epitech.dashboard.Widget;
-import com.epitech.dashboard.youtube.LastVideoWidgetLayout;
 import com.epitech.dashboard.youtube.VideoLayout;
 import com.epitech.dashboard.youtube.YoutubeRequests;
 import com.google.api.services.youtube.model.Channel;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.ui.TextField;
 
-public class Subscribers extends AWidget {
+public class SubscribersWidget extends AWidget {
     private VideoLayout widget = new VideoLayout();
     private YoutubeRequests request = new YoutubeRequests();
-    private TextField idField = new TextField();
+    private TextField idField = new TextField("Url de la chaine : ");
     private String urlChannel = "";
 
-    public Subscribers() {
+    public SubscribersWidget() {
         formContent.addComponent(idField);
     }
 
