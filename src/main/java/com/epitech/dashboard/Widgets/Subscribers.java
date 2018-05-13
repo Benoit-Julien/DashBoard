@@ -24,7 +24,7 @@ public class Subscribers extends AWidget {
         try {
             ((VideoLayout) widget).getThumbnail().setSource(new ExternalResource(channel.getSnippet().getThumbnails().getMedium().getUrl()));
             ((VideoLayout) widget).getTitle().setCaption(channel.getSnippet().getTitle());
-            ((VideoLayout) widget).getDate().setValue(channel.getStatistics().getSubscriberCount().toString());
+            ((VideoLayout) widget).getDate().setValue(channel.getStatistics().getSubscriberCount().toString() + " abonnés");
         } catch (NullPointerException e) {
             e.printStackTrace();
             return false;
