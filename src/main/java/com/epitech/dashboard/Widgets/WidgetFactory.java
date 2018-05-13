@@ -28,6 +28,7 @@ public class WidgetFactory {
             widgets.put("Top trending video youtube", Class.forName("com.epitech.dashboard.Widgets.TopTrendingWidget"));
             widgets.put("Yt views counter", Class.forName("com.epitech.dashboard.Widgets.VideoViews"));
             widgets.put("Météo et horloge", Class.forName("com.epitech.dashboard.Widgets.WeatherAndTimeWidget"));
+            widgets.put("SubReddit post", Class.forName("com.epitech.dashboard.Widgets.reddit"));
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
