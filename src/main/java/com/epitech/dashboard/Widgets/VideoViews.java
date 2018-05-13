@@ -11,7 +11,7 @@ public class VideoViews extends AWidget {
 
     VideoLayout layout = new VideoLayout();
 
-    TextField urlForm = new TextField();
+    TextField urlForm = new TextField("Url de la video");
 
     boolean fromDb = false;
 

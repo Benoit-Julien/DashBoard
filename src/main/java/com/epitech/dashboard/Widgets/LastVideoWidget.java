@@ -21,7 +21,7 @@ public class LastVideoWidget extends AWidget {
 
     private YoutubeRequests requests = new YoutubeRequests();
 
-    private TextField idField = new TextField();
+    private TextField idField = new TextField("Url de la chaine");
 
     private Channel channel = null;
 

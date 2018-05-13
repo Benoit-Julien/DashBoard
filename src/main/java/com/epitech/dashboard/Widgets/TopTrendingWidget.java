@@ -15,7 +15,7 @@ public class TopTrendingWidget extends AWidget {
 
     private ListDataProvider<Region> countries;
 
-    private ComboBox<Region> countrySelect = new ComboBox<>("Select a country");
+    private ComboBox<Region> countrySelect = new ComboBox<>("Choisisez un pays");
 
     private YoutubeRequests requests = new YoutubeRequests();
 
