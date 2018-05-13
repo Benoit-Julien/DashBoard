@@ -10,11 +10,11 @@ public class Genre {
     private String id;
     private String name;
 
-    public Genre(){
+    public Genre() {
 
     }
 
-    public Genre(String id, String name){
+    public Genre(String id, String name) {
         this.name = name;
         this.id = id;
     }
@@ -24,11 +24,11 @@ public class Genre {
         return name;
     }
 
-    public String getName(){
+    public String getName() {
         return name;
     }
 
-    public void setName(String name){
+    public void setName(String name) {
         this.name = name;
     }
 
@@ -40,11 +40,11 @@ public class Genre {
         this.id = id;
     }
 
-    public static List<Genre> GetGenres(List source){
+    public static List<Genre> GetGenres(List source) {
         ArrayList<Genre> list = new ArrayList<>();
 
-        for(Object entry: source){
-            if (entry instanceof LinkedHashMap){
+        for (Object entry : source) {
+            if (entry instanceof LinkedHashMap) {
                 ObjectMapper mapper = new ObjectMapper();
                 try {
                     list.add(mapper.convertValue(entry, Genre.class));
@@ -54,6 +54,6 @@ public class Genre {
             }
         }
 
-        return  list;
+        return list;
     }
 }

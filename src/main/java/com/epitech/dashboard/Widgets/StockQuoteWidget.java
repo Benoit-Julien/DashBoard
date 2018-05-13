@@ -1,20 +1,19 @@
 package com.epitech.dashboard.Widgets;
 
-import com.epitech.dashboard.Widget;
 import com.epitech.dashboard.Quote.QuoteDataInfo;
 import com.epitech.dashboard.Quote.QuoteDataWidgetLayout;
+import com.epitech.dashboard.Widget;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.vaadin.ui.TextField;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.vaadin.ui.TextField;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
 public class StockQuoteWidget extends AWidget {
 
@@ -67,8 +66,7 @@ public class StockQuoteWidget extends AWidget {
             low = quote_data.get("low").toString();
             latestTime = quote_data.get("latestTime").toString();
             latestVolume = quote_data.get("latestVolume").toString();
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
             return false;
         } catch (ParseException e) {

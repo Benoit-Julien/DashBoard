@@ -44,7 +44,7 @@ abstract public class AWidget {
     protected AWidget() {
         formContent = new FormLayout();
 
-        submitButton = new Button("Submit");
+        submitButton = new Button("Valider");
         //submitButton.addClickListener(e -> this.submitted());
 
         VerticalLayout layout = new VerticalLayout();

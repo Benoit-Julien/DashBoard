@@ -147,7 +147,6 @@ public class ImgurWidget extends AWidget {
         }
 
         mainDisplay = widget;
-        refresh();
-        return true;
+        return refresh();
     }
 }

@@ -6,14 +6,12 @@ import com.epitech.dashboard.Widget;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.maps.DirectionsApi;
 import com.google.maps.GeoApiContext;
-import com.google.maps.errors.ApiException;
 import com.google.maps.model.DirectionsResult;
 import com.google.maps.model.DirectionsStep;
 import com.google.maps.model.Unit;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.ui.TextField;
 
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -63,7 +61,7 @@ public class GoogleMapWidget extends AWidget {
         }
         widget.getImage().setSource(new ExternalResource(mapurl));
         widget.getDistance().setValue("Distance : " + directionsResult.routes[0].legs[0].distance.humanReadable);
-        widget.getDuration().setValue("Duration : " + directionsResult.routes[0].legs[0].duration.humanReadable);
+        widget.getDuration().setValue("Temps de trajet : " + directionsResult.routes[0].legs[0].duration.humanReadable);
         return true;
     }
 

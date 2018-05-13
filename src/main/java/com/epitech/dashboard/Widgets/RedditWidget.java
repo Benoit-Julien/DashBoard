@@ -4,27 +4,27 @@ import com.epitech.dashboard.Widget;
 import com.epitech.dashboard.youtube.VideoLayout;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.ui.TextField;
-
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 
-public class reddit extends AWidget{
+public class RedditWidget extends AWidget {
     private String subreddit = null;
-    private String Url = "https://www.reddit.com/r/";
+    private String Url = "https://www.RedditWidget.com/r/";
     private String minimal = "";
     private String Title = "";
-    private TextField SubField = new TextField();
+    private TextField SubField = new TextField("Nom du subreddit : ");
 
     private VideoLayout widget = new VideoLayout();
-    public reddit() {
+
+    public RedditWidget() {
         formContent.addComponent(SubField);
     }
 
     private String build_sub() {
         if (SubField.getValue() != "")
             return (Url.concat(SubField.getValue()).concat("/"));
-        else if(subreddit != null)
+        else if (subreddit != null)
             return (Url.concat(subreddit).concat("/"));
         else
             return "";
@@ -57,7 +57,7 @@ public class reddit extends AWidget{
 
             widget.getThumbnail().setSource(new ExternalResource(UrlImg));
             widget.getTitle().setCaption(subreddit);
-            widget.getTitle().setResource(new ExternalResource("https://www.reddit.com/" + UrlTitle));
+            widget.getTitle().setResource(new ExternalResource("https://www.RedditWidget.com/" + UrlTitle));
             widget.getDate().setValue(" ");
         } catch (Exception e) {
             e.printStackTrace();

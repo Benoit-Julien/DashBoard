@@ -10,8 +10,7 @@ public class DeezerInfos {
     private static final String urlSearchName = "https://api.deezer.com/search?q=";
     private static final String urlSearchId = "https://api.deezer.com/artist/";
 
-    public String searchArtistByName(String nameArtist)
-    {
+    public String searchArtistByName(String nameArtist) {
         String artistId = null;
         nameArtist = nameArtist.trim();
         String url = urlSearchName + nameArtist;
@@ -20,16 +19,15 @@ public class DeezerInfos {
         LinkedHashMap map = template.getForObject(url, LinkedHashMap.class);
 
         try {
-            LinkedHashMap entry = ((ArrayList<LinkedHashMap>)map.get("data")).get(0);
-            artistId = String.valueOf((int)((LinkedHashMap) entry.get("artist")).get("id"));
+            LinkedHashMap entry = ((ArrayList<LinkedHashMap>) map.get("data")).get(0);
+            artistId = String.valueOf((int) ((LinkedHashMap) entry.get("artist")).get("id"));
         } catch (Exception e) {
             e.printStackTrace();
         }
         return artistId;
     }
 
-    public String searchArtistById(String artistId)
-    {
+    public String searchArtistById(String artistId) {
         String artistFans = null;
         String url = urlSearchId + artistId;
 
@@ -44,8 +42,7 @@ public class DeezerInfos {
         return artistFans;
     }
 
-    public String getUrlPicture(String artistId)
-    {
+    public String getUrlPicture(String artistId) {
         String urlImage = null;
         String url = urlSearchId + artistId;
 
@@ -61,8 +58,7 @@ public class DeezerInfos {
         return urlImage;
     }
 
-    public String getArtistName(String artistId)
-    {
+    public String getArtistName(String artistId) {
         String artistName = null;
         String url = urlSearchId + artistId;
 
@@ -78,8 +74,7 @@ public class DeezerInfos {
         return artistName;
     }
 
-    public String getArtistNbAlbums(String artistId)
-    {
+    public String getArtistNbAlbums(String artistId) {
         String nbAlbums = null;
         String url = urlSearchId + artistId;
 

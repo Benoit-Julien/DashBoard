@@ -6,8 +6,6 @@ import com.epitech.dashboard.Widget;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vaadin.data.provider.ListDataProvider;
 import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.VerticalLayout;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
@@ -23,10 +21,10 @@ public class MoviesWidget extends AWidget {
     private MoviesWidgetLayout layout = new MoviesWidgetLayout();
     Genre genre = null;
 
-    ComboBox<Genre> genresForm = new ComboBox<Genre>("Selectionnez le genre a visualiser");
+    ComboBox<Genre> genresForm = new ComboBox<Genre>("Selectionnez le genre a visualiser : ");
     ListDataProvider<Genre> data = null;
 
-    public MoviesWidget(){
+    public MoviesWidget() {
         try {
             RestTemplate template = new RestTemplate();
             LinkedHashMap res = template.getForObject(GENRE_URL, LinkedHashMap.class);
@@ -43,11 +41,10 @@ public class MoviesWidget extends AWidget {
         try {
             RestTemplate template = new RestTemplate();
             LinkedHashMap res = template.getForObject((MOVIE_URL_FIRST + genre.getId() + MOVIE_URL_SECOND), LinkedHashMap.class);
-            ArrayList list = (ArrayList)res.get("results");
+            ArrayList list = (ArrayList) res.get("results");
             ObjectMapper mapper = new ObjectMapper();
-            for (Object map: list){
-                if (map instanceof LinkedHashMap)
-                {
+            for (Object map : list) {
+                if (map instanceof LinkedHashMap) {
                     String header = "Genre: ".concat(genre.getName());
                     layout.getHead().setValue(header);
                     layout.getTitle().setValue((String) ((LinkedHashMap) map).get("title"));
