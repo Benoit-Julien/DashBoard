@@ -32,6 +32,7 @@ public class WidgetFactory {
             widgets.put("Météo et horloge", Class.forName("com.epitech.dashboard.Widgets.WeatherAndTimeWidget"));
             widgets.put("Bourse", Class.forName("com.epitech.dashboard.Widgets.StockQuoteWidget"));
             widgets.put("Nombre d'albums d'un artiste", Class.forName("com.epitech.dashboard.Widgets.NumberAlbums"));
+            widgets.put("Nombre de commentaires (YT)", Class.forName("com.epitech.dashboard.Widgets.NbrCommentYT"));
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
