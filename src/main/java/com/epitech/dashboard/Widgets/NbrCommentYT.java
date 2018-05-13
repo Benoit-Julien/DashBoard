@@ -7,19 +7,15 @@ import com.google.api.services.youtube.model.Video;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.ui.TextField;
 
-public class VideoViews extends AWidget {
+public class NbrCommentYT extends AWidget {
 
-    VideoLayout layout = new VideoLayout();
+    private VideoLayout layout = new VideoLayout();
+    private TextField urlForm = new TextField("Url de la vidéo :");
+    private boolean fromDb = false;
+    private YoutubeRequests requests = new YoutubeRequests();
+    private String url = "";
 
-    TextField urlForm = new TextField("Url de la video");
-
-    boolean fromDb = false;
-
-    YoutubeRequests requests = new YoutubeRequests();
-
-    String url = "";
-
-    public VideoViews() {
+    public NbrCommentYT() {
         formContent.addComponent(urlForm);
     }
 
@@ -33,7 +29,7 @@ public class VideoViews extends AWidget {
             layout.getThumbnail().setSource(new ExternalResource(video.getSnippet().getThumbnails().getDefault().getUrl()));
             layout.getTitle().setCaption(title);
             layout.getTitle().setResource(new ExternalResource(requests.buildVideoLink(video.getId())));
-            layout.getDate().setValue("Nb de vues: ".concat(video.getStatistics().getViewCount().toString()));
+            layout.getDate().setValue("Nombre de commentaires: ".concat(video.getStatistics().getCommentCount().toString()));
         } catch (Exception e) {
             e.printStackTrace();
             return false;
