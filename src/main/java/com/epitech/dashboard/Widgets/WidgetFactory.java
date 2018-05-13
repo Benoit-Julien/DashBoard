@@ -24,6 +24,7 @@ public class WidgetFactory {
             widgets.put("Google Map", Class.forName("com.epitech.dashboard.Widgets.GoogleMapWidget"));
             widgets.put("Derniere video (YT)", Class.forName("com.epitech.dashboard.Widgets.LastVideoWidget"));
             widgets.put("Flux RSS", Class.forName("com.epitech.dashboard.Widgets.RSSFeedWidget"));
+            widgets.put("Film par genre", Class.forName("com.epitech.dashboard.Widgets.MoviesWidget"));
             widgets.put("Nombre de fans sur Deezer", Class.forName("com.epitech.dashboard.Widgets.Deezer"));
             widgets.put("Nombre d'abonnes (YT)", Class.forName("com.epitech.dashboard.Widgets.Subscribers"));
             widgets.put("Nombre de vues dans une chaîne (YT)", Class.forName("com.epitech.dashboard.Widgets.ViewsNumber"));
