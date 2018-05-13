@@ -11,7 +11,7 @@ public class VideoViews extends AWidget {
 
     VideoLayout layout = new VideoLayout();
 
-    TextField urlForm = new TextField();
+    TextField urlForm = new TextField("Url de la video");
 
     boolean fromDb = false;
 
@@ -33,7 +33,7 @@ public class VideoViews extends AWidget {
             layout.getThumbnail().setSource(new ExternalResource(video.getSnippet().getThumbnails().getDefault().getUrl()));
             layout.getTitle().setCaption(title);
             layout.getTitle().setResource(new ExternalResource(requests.buildVideoLink(video.getId())));
-            layout.getDate().setValue("Nb of views: ".concat(video.getStatistics().getViewCount().toString()));
+            layout.getDate().setValue("Nb de vues: ".concat(video.getStatistics().getViewCount().toString()));
         } catch (Exception e) {
             e.printStackTrace();
             return false;
