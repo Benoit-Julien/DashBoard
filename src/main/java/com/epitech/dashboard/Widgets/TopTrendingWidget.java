@@ -15,13 +15,13 @@ public class TopTrendingWidget extends AWidget {
 
     private ListDataProvider<Region> countries;
 
-    private ComboBox<Region> countrySelect = new ComboBox<>("Select a country");
+    private ComboBox<Region> countrySelect = new ComboBox<>("Choisisez un pays");
 
     private YoutubeRequests requests = new YoutubeRequests();
 
     private Region country = null;
 
-    private LastVideoWidgetLayout widget = new VideoLayout();
+    private VideoLayout widget = new VideoLayout();
 
     public TopTrendingWidget() {
         countries = new ListDataProvider<>(requests.getCountriesList());
@@ -36,10 +36,10 @@ public class TopTrendingWidget extends AWidget {
             String title = video.getSnippet().getTitle();
             if (title.length() > 20)
                 title = title.substring(0, 19).concat("...");
-            ((VideoLayout) widget).getThumbnail().setSource(new ExternalResource(video.getSnippet().getThumbnails().getDefault().getUrl()));
-            ((VideoLayout) widget).getTitle().setCaption(title);
-            ((VideoLayout) widget).getTitle().setResource(new ExternalResource(requests.buildVideoLink(video.getId())));
-            ((VideoLayout) widget).getDate().setValue("Top trending video in: ".concat(country.getName()));
+            widget.getThumbnail().setSource(new ExternalResource(video.getSnippet().getThumbnails().getDefault().getUrl()));
+            widget.getTitle().setCaption(title);
+            widget.getTitle().setResource(new ExternalResource(requests.buildVideoLink(video.getId())));
+            widget.getDate().setValue("Meilleure video en: ".concat(country.getName()));
         } catch (NullPointerException e) {
             e.printStackTrace();
             return false;
