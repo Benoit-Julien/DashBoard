@@ -2,12 +2,12 @@ package com.epitech.dashboard.Widgets;
 
 import com.epitech.dashboard.Deezer.DeezerInfos;
 import com.epitech.dashboard.Deezer.DeezerWidgetLayout;
-
 import com.epitech.dashboard.Widget;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.ui.TextField;
 
-public class Deezer extends AWidget {
+public class NumberAlbums extends AWidget{
+
     private TextField artist = new TextField("Artiste : ");
 
     private DeezerInfos deezerInfos = new DeezerInfos();
@@ -17,18 +17,20 @@ public class Deezer extends AWidget {
 
     private String idArtist = null;
 
-    private String nbFans;
+    private String nbAlbums;
 
-    public Deezer() {
+    public NumberAlbums() {
         formContent.addComponent(artist);
     }
+
+
 
     @Override
     public boolean refresh() {
         try {
-            nbFans = deezerInfos.searchArtistById(idArtist);
+            nbAlbums = deezerInfos.getArtistNbAlbums(idArtist);
             widget.getImage().setSource(new ExternalResource(deezerInfos.getUrlPicture(idArtist)));
-            widget.getInformations().setValue(deezerInfos.getArtistName(idArtist) + " a " + nbFans + " fans");
+            widget.getInformations().setValue(deezerInfos.getArtistName(idArtist) + " a publié " + nbAlbums + " albums");
 
         } catch (NullPointerException e) {
             e.printStackTrace();
@@ -53,9 +55,9 @@ public class Deezer extends AWidget {
 
     @Override
     public boolean submitted() {
-        if (idArtist == null)
-            idArtist = deezerInfos.searchArtistByName(artist.getValue());
-        mainDisplay = widget;
-        return refresh();
+            if (idArtist == null)
+                idArtist = deezerInfos.searchArtistByName(artist.getValue());
+            mainDisplay = widget;
+            return refresh();
     }
 }

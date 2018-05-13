@@ -77,4 +77,20 @@ public class DeezerInfos {
 
         return artistName;
     }
+
+    public String getArtistNbAlbums(String artistId)
+    {
+        String nbAlbums = null;
+        String url = urlSearchId + artistId;
+
+        RestTemplate template = new RestTemplate();
+        LinkedHashMap map = template.getForObject(url, LinkedHashMap.class);
+
+        try {
+            nbAlbums = map.get("nb_album").toString();
+        } catch (RestClientException e) {
+            e.printStackTrace();
+        }
+        return nbAlbums;
+    }
 }
