@@ -24,10 +24,11 @@ public class WidgetFactory {
             widgets.put("Google Map", Class.forName("com.epitech.dashboard.Widgets.GoogleMapWidget"));
             widgets.put("Last channel's video", Class.forName("com.epitech.dashboard.Widgets.LastVideoWidget"));
             widgets.put("Flux RSS", Class.forName("com.epitech.dashboard.Widgets.RSSFeedWidget"));
-            widgets.put("Number of Subscribers of a channel", Class.forName("com.epitech.dashboard.Widgets.Subscribers"));
+            widgets.put("Nombre d'abonnés à une chaîne Youtube", Class.forName("com.epitech.dashboard.Widgets.Subscribers"));
             widgets.put("Top trending video youtube", Class.forName("com.epitech.dashboard.Widgets.TopTrendingWidget"));
             widgets.put("Yt views counter", Class.forName("com.epitech.dashboard.Widgets.VideoViews"));
             widgets.put("Météo et horloge", Class.forName("com.epitech.dashboard.Widgets.WeatherAndTimeWidget"));
+            widgets.put("Nombre de fans sur Deezer", Class.forName("com.epitech.dashboard.Widgets.Deezer"));
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
