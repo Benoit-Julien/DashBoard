@@ -81,7 +81,10 @@ public class DashBoardView extends VerticalLayout implements View {
 
     @PostConstruct
     private void init() {
-        Button button = new Button("Ajouter un widget", VaadinIcons.PLUS);
+        Button add = new Button("Ajouter un widget", VaadinIcons.PLUS);
+        Button refresh = new Button("Rafraichir");
+        HorizontalLayout buttonLayout = new HorizontalLayout(add, refresh);
+
         VerticalLayout popupContent = new VerticalLayout();
         selectWidgetPopup = new PopupView(null, popupContent);
 
@@ -98,10 +101,15 @@ public class DashBoardView extends VerticalLayout implements View {
 
         setMargin(true);
         setSpacing(true);
-        addComponent(button);
+        addComponent(buttonLayout);
         setComponentAlignment(selectWidgetPopup, Alignment.TOP_CENTER);
         addComponent(widgetsGrid);
-        button.addClickListener(e -> selectWidgetPopup.setPopupVisible(true));
+        add.addClickListener(e -> selectWidgetPopup.setPopupVisible(true));
+        refresh.addClickListener(e -> {
+            for (AWidget widget : widgets) {
+                widget.refresh();
+            }
+        });
         //endregion
 
         //region Init dynamic widgets
