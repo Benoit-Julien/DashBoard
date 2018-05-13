@@ -17,7 +17,7 @@ import java.io.IOException;
 public class LastVideoWidget extends AWidget {
 
 
-    private LastVideoWidgetLayout widget = new VideoLayout();
+    private VideoLayout widget = new VideoLayout();
 
     private YoutubeRequests requests = new YoutubeRequests();
 
@@ -36,10 +36,10 @@ public class LastVideoWidget extends AWidget {
             String title = video.getSnippet().getTitle();
             if (title.length() > 20)
                 title = title.substring(0, 19).concat("...");
-            ((VideoLayout) widget).getThumbnail().setSource(new ExternalResource(video.getSnippet().getThumbnails().getDefault().getUrl()));
-            ((VideoLayout) widget).getTitle().setCaption(title);
-            ((VideoLayout) widget).getTitle().setResource(new ExternalResource(requests.buildVideoLink(video.getContentDetails().getVideoId())));
-            ((VideoLayout) widget).getDate().setValue("Last channel's video: ".concat(channel.getSnippet().getTitle()));
+            widget.getThumbnail().setSource(new ExternalResource(video.getSnippet().getThumbnails().getDefault().getUrl()));
+            widget.getTitle().setCaption(title);
+            widget.getTitle().setResource(new ExternalResource(requests.buildVideoLink(video.getContentDetails().getVideoId())));
+            widget.getDate().setValue("Dernière video de la chaîne: ".concat(channel.getSnippet().getTitle()));
         } catch (NullPointerException e) {
             e.printStackTrace();
             return false;
