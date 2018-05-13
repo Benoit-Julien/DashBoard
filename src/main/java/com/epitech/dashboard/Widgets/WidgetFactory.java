@@ -25,6 +25,7 @@ public class WidgetFactory {
             widgets.put("Derniere video (YT)", Class.forName("com.epitech.dashboard.Widgets.LastVideoWidget"));
             widgets.put("Flux RSS", Class.forName("com.epitech.dashboard.Widgets.RSSFeedWidget"));
             widgets.put("Nombre d'abonnes", Class.forName("com.epitech.dashboard.Widgets.Subscribers"));
+            widgets.put("Nombre de vues dans une chîne YT", Class.forName("com.epitech.dashboard.Widgets.ViewsNumber"));
             widgets.put("Top tendances (YT)", Class.forName("com.epitech.dashboard.Widgets.TopTrendingWidget"));
             widgets.put("Nombre de vues dans une video", Class.forName("com.epitech.dashboard.Widgets.VideoViews"));
             widgets.put("Météo et horloge", Class.forName("com.epitech.dashboard.Widgets.WeatherAndTimeWidget"));
