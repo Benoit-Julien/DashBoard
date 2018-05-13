@@ -8,13 +8,13 @@ import com.google.api.services.youtube.model.Channel;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.ui.TextField;
 
-public class Subscribers extends AWidget {
+public class ViewsNumber extends AWidget {
     private VideoLayout widget = new VideoLayout();
     private YoutubeRequests request = new YoutubeRequests();
-    private TextField idField = new TextField();
+    private TextField idField = new TextField("Lien de la chaine youtube");
     private String urlChannel = "";
 
-    public Subscribers() {
+    public ViewsNumber() {
         formContent.addComponent(idField);
     }
 
@@ -24,7 +24,7 @@ public class Subscribers extends AWidget {
         try {
             widget.getThumbnail().setSource(new ExternalResource(channel.getSnippet().getThumbnails().getMedium().getUrl()));
             widget.getTitle().setCaption(channel.getSnippet().getTitle());
-            widget.getDate().setValue(channel.getStatistics().getSubscriberCount().toString() + " abonnés");
+            widget.getDate().setValue("Nombre de vues: ".concat(channel.getStatistics().getViewCount().toString()));
         } catch (NullPointerException e) {
             e.printStackTrace();
             return false;

@@ -22,11 +22,13 @@ public class WidgetFactory {
         widgets = new HashMap<>();
         try {
             widgets.put("Google Map", Class.forName("com.epitech.dashboard.Widgets.GoogleMapWidget"));
-            widgets.put("Last channel's video", Class.forName("com.epitech.dashboard.Widgets.LastVideoWidget"));
+            widgets.put("Derniere video (YT)", Class.forName("com.epitech.dashboard.Widgets.LastVideoWidget"));
             widgets.put("Flux RSS", Class.forName("com.epitech.dashboard.Widgets.RSSFeedWidget"));
-            widgets.put("Number of Subscribers of a channel", Class.forName("com.epitech.dashboard.Widgets.Subscribers"));
-            widgets.put("Top trending video youtube", Class.forName("com.epitech.dashboard.Widgets.TopTrendingWidget"));
-            widgets.put("Yt views counter", Class.forName("com.epitech.dashboard.Widgets.VideoViews"));
+            widgets.put("Nombre de fans sur Deezer", Class.forName("com.epitech.dashboard.Widgets.Deezer"));
+            widgets.put("Nombre d'abonnes", Class.forName("com.epitech.dashboard.Widgets.Subscribers"));
+            widgets.put("Nombre de vues dans une chîne YT", Class.forName("com.epitech.dashboard.Widgets.ViewsNumber"));
+            widgets.put("Top tendances (YT)", Class.forName("com.epitech.dashboard.Widgets.TopTrendingWidget"));
+            widgets.put("Nombre de vues dans une video", Class.forName("com.epitech.dashboard.Widgets.VideoViews"));
             widgets.put("Météo et horloge", Class.forName("com.epitech.dashboard.Widgets.WeatherAndTimeWidget"));
             widgets.put("Bourse", Class.forName("com.epitech.dashboard.Widgets.StockQuoteWidget"));
             widgets.put("Nombre de commentaires (YT)", Class.forName("com.epitech.dashboard.Widgets.NbrCommentYT"));

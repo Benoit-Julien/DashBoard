@@ -45,7 +45,7 @@ abstract public class AWidget {
         formContent = new FormLayout();
 
         submitButton = new Button("Submit");
-        submitButton.addClickListener(e -> this.submitted());
+        //submitButton.addClickListener(e -> this.submitted());
 
         VerticalLayout layout = new VerticalLayout();
         layout.addComponent(formContent);
