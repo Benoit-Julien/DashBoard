@@ -1,0 +1,31 @@
+@import "../valo/valo";
+
+@include valo;
+
+#Widget {
+  border-style: solid;
+  border-width: 5px;
+  border-color: #949494;
+  border-radius: 10px;
+
+  margin: 10px;
+}
+
+#desc {
+  overflow-y: scroll;
+}
+
+#verticalLayoutRSS {
+  margin-top: 20px;
+  padding-top: 37px;
+}
+
+#verticalLayout
+{
+  margin-top: 20px;
+}
+
+#DeleteButton {
+  color: red;
+  margin: 10px;
+}
