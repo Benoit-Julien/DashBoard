@@ -21,17 +21,7 @@ This is a Dashboard project, we implement fifteen APIs :
 * Last movie by genre
 
 ## Run
-### Sources
-
 ```
 mvn dependency:tree
 mvn spring-boot:run
-```
-
-### Pre-Build
-
-Download here : [Dashboard.jar](https://github.com/Benoit-Julien/DashBoard/releases/latest)
-
-```
-java -jar Dashboard.jar
 ```
